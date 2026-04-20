@@ -781,3 +781,8 @@ I have made a few changes on the code to make the app more perfect. I would like
 - **Changes Made**: User asked "do it correctly"; corrected circle tier constant in main.py so CIRCLE_BIG_RADIUS is now 3x CIRCLE_SMALL_RADIUS (was 4x), kept CIRCLE_COUNT at 20, and verified no errors in main.py.
 - **Context and Reasons for Changes**: Restore the original size-tier requirement while preserving the requested circle count and confirming file correctness.
 
+
+### **New Interaction**
+- **Hook Version**: 1.02
+- **Date**: 20-04-2026 14:17
+- **Prompt**: connect this to lab 8 instead of lab 10. We would be using lab 8 from now on where we push it to. here is the link: https://github.com/JustinDCosta/lab8-pygame.git  connect it and remove lab 10 wherever it was
