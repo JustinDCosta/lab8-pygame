@@ -164,3 +164,6 @@ Automatically captured prompt log. Entries are appended in chronological order (
 ### 22-04-2026 21:13
 - **Prompt**: since it is optional, do it for me but also explain it to me on how it works, by breaking it down step by step.
 
+### 22-04-2026 21:17
+- **Prompt**: I want to add a new feature where i can increase and decrease the speed of the simulation. How can i do ths?
+
