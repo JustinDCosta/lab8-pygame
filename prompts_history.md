@@ -152,3 +152,6 @@ Automatically captured prompt log. Entries are appended in chronological order (
 ### 22-04-2026 19:42
 - **Prompt**: I have successfully added the dying and rebirth feature it works,  but is there any hidden issues that you can tell me about?
 
+### 22-04-2026 19:45
+- **Prompt**: could you guide me on how i can fix that. Go in depth since I am a first year CS student.
+
