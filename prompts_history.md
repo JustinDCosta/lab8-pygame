@@ -149,3 +149,6 @@ Automatically captured prompt log. Entries are appended in chronological order (
 ### 22-04-2026 17:24
 - **Prompt**: I have made changes to the code to fix the necessary problems? Can you do a recheck?
 
+### 22-04-2026 17:28
+- **Prompt**: add dying and rebirth feature within a few seconds. Code should be really simple and human readable just like original code
+
