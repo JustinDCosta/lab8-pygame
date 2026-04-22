@@ -158,3 +158,6 @@ Automatically captured prompt log. Entries are appended in chronological order (
 ### 22-04-2026 19:49
 - **Prompt**: Give me easy stubs and hints to do it.
 
+### 22-04-2026 19:51
+- **Prompt**: do it for me correctly and simply in the main.py, with correct and simple comment, like the actual main.py
+

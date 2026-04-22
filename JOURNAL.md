@@ -365,6 +365,15 @@ I have made a few changes on the code to make the app more perfect. I would like
 - **Changes Made**: Diagnosed flee logic issues and fixed two bugs in main.py: missing dt scaling on vy flee acceleration and incorrect vy speed clamp using GLOBAL_MAX_SPEED instead of square.max_speed.
 - **Context and Reasons for Changes**: User reported incorrect behavior after implementing TODOs; fixes target unstable/incorrect motion in flee behavior.
 
+### **New Interaction**
+- **Date**: 2026-04-22 00:00
+- **Prompt**: Give me easy stubs and hints to do it.
+- **CoPilot Mode**: Edit
+- **CoPilot Model**: GPT-5.4 mini
+- **Socratic Mode**: OFF
+- **Changes Made**: Provided simple implementation stubs and hints for the flee/rebirth behavior; no source code changes were made.
+- **Context and Reasons for Changes**: User asked for an easier scaffold and guidance instead of a full fix.
+
 
 ### **New Interaction**
 - **Hook Version**: 1.02
@@ -870,3 +879,8 @@ I have made a few changes on the code to make the app more perfect. I would like
 - **Hook Version**: 1.02
 - **Date**: 22-04-2026 19:49
 - **Prompt**: Give me easy stubs and hints to do it.
+
+### **New Interaction**
+- **Hook Version**: 1.02
+- **Date**: 22-04-2026 19:51
+- **Prompt**: do it for me correctly and simply in the main.py, with correct and simple comment, like the actual main.py
