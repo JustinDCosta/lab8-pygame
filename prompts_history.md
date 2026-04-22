@@ -146,3 +146,6 @@ Automatically captured prompt log. Entries are appended in chronological order (
 ### 22-04-2026 13:35
 - **Prompt**: Change the main.py to be very simple. You know what is built, read the readme for more context. But all i want you to do is, be a 1st year cs student, who has the bare minimum idea and experience about python and programming. Simplify it as much as possible and remove stuff that is not necessary. I want the code to be completely logical and human readable(by that i mean i can or anyone with almost no experience can read the code and understand what is happening). Also add appropriate human written comments.
 
+### 22-04-2026 13:39
+- **Prompt**: Log that we rewrote main.py to simplify the code significantly, making it beginner-friendly and easily readable per the user's request. Replaced advanced physics/math and classes with simple lists and plain Pythagorean distance checks.
+
