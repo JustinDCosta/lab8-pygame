@@ -161,3 +161,6 @@ Automatically captured prompt log. Entries are appended in chronological order (
 ### 22-04-2026 21:07
 - **Prompt**: I want to add optional special effects to when a circle dies and reborns. could you give me some idea on how the effect should look like and how i can implement it?
 
+### 22-04-2026 21:13
+- **Prompt**: since it is optional, do it for me but also explain it to me on how it works, by breaking it down step by step.
+
