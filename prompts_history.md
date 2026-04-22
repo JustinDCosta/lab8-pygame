@@ -149,3 +149,6 @@ Automatically captured prompt log. Entries are appended in chronological order (
 ### 22-04-2026 13:39
 - **Prompt**: Log that we rewrote main.py to simplify the code significantly, making it beginner-friendly and easily readable per the user's request. Replaced advanced physics/math and classes with simple lists and plain Pythagorean distance checks.
 
+### 22-04-2026 13:56
+- **Prompt**: Why are they overlapping?, and not working properly? READ the readme to understand what it is supposed to do, the big is supposed to Chase the smaller one, and the smaller one to flee away. Have it have a custom radius(for the bigger one) so that it will chase it until the smaller one is flees away somehow, the bigger one might just switch to some other one, read mynotes for the context of the final version.
+

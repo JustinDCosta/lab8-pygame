@@ -790,3 +790,29 @@ I have made a few changes on the code to make the app more perfect. I would like
 - **Hook Version**: 1.02
 - **Date**: 22-04-2026 13:39
 - **Prompt**: Log that we rewrote main.py to simplify the code significantly, making it beginner-friendly and easily readable per the user's request. Replaced advanced physics/math and classes with simple lists and plain Pythagorean distance checks.
+
+### **New Interaction**
+- **Agent Version**: 2.3
+- **Date**: 22-04-2026 13:39
+- **User**: justin.d-costa@epita.fr
+- **Prompt**: Log that we rewrote main.py to simplify the code significantly, making it beginner-friendly and easily readable per the user's request. Replaced advanced physics/math and classes with simple lists and plain Pythagorean distance checks.
+- **CoPilot Mode**: Agent
+- **CoPilot Model**: Gemini 3.1 Pro (Preview)
+- **Socratic Mode**: ON
+- **Changes Made**: Rewrote main.py completely to simplify the codebase, replacing advanced physics calculations with basic lists and plain Pythagorean distance checks.
+- **Context and Reasons for Changes**: The user requested the code be heavily simplified to make it beginner-friendly and easily readable for educational purposes.
+### **New Interaction**
+- **Agent Version**: 2.3
+- **Date**: 22-04-2026 12:00
+- **User**: justin.d-costa@epita.fr
+- **Prompt**: Change the main.py to be very simple. You know what is built, read the readme for more context. But all i want you to do is, be a 1st year cs student, who has the bare minimum idea and experience about python and programming. Simplify it as much as possible and remove stuff that is not necessary. I want the code to be completely logical and human readable(by that i mean i can or anyone with almost no experience can read the code and understand what is happening). Also add appropriate human written comments.
+- **CoPilot Mode**: Edit
+- **CoPilot Model**: Gemini 3.1 Pro (Preview)
+- **Socratic Mode**: ON
+- **Changes Made**: Completely rewrote main.py to use basic procedural programming, loops, and simple objects instead of dataclasses and spatial hashing.
+- **Context and Reasons for Changes**: The user requested a massive simplification of the project's physics and code structure to match a first-year CS student's skill level.
+
+### **New Interaction**
+- **Hook Version**: 1.02
+- **Date**: 22-04-2026 13:56
+- **Prompt**: Why are they overlapping?, and not working properly? READ the readme to understand what it is supposed to do, the big is supposed to Chase the smaller one, and the smaller one to flee away. Have it have a custom radius(for the bigger one) so that it will chase it until the smaller one is flees away somehow, the bigger one might just switch to some other one, read mynotes for the context of the final version.
