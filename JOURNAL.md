@@ -785,3 +785,18 @@ I have made a few changes on the code to make the app more perfect. I would like
 - **Hook Version**: 1.02
 - **Date**: 22-04-2026 14:06
 - **Prompt**: Forget socrates mode YOU DO IT fix the problems
+### **New Interaction**
+- **Agent Version**: 2.3
+- **Date**: 22-04-2026 12:10
+- **User**: justin.d-costa@epita.fr
+- **Prompt**: Forget socrates mode. YOU DO IT fix the problems.
+- **CoPilot Mode**: Edit
+- **CoPilot Model**: Gemini 3.1 Pro (Preview)
+- **Socratic Mode**: OFF
+- **Changes Made**: Disabled Socratic mode. Implemented overlap resolution, flee logic, and target-based chase logic based on MY_NOTES.md prioritizations.
+- **Context and Reasons for Changes**: User explicitly requested to turn off Socratic mode and fix the overlapping/chasing issues directly. Implemented logic that finds the closest valid target for bigger circles to chase with specific logic resolving tie-breakers by size, then distance. Added an overlap un-sticking logic.
+
+### **New Interaction**
+- **Hook Version**: 1.02
+- **Date**: 22-04-2026 15:26
+- **Prompt**: They all get stuck in the corner as they get cornered , what can be a fix for that

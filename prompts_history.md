@@ -143,3 +143,6 @@ Automatically captured prompt log. Entries are appended in chronological order (
 ### 22-04-2026 14:06
 - **Prompt**: Forget socrates mode YOU DO IT fix the problems
 
+### 22-04-2026 15:26
+- **Prompt**: They all get stuck in the corner as they get cornered , what can be a fix for that
+
