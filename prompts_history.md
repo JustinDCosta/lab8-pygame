@@ -146,3 +146,6 @@ Automatically captured prompt log. Entries are appended in chronological order (
 ### 22-04-2026 15:26
 - **Prompt**: They all get stuck in the corner as they get cornered , what can be a fix for that
 
+### 22-04-2026 15:28
+- **Prompt**: still gets stuck
+
