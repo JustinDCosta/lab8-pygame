@@ -146,3 +146,6 @@ Automatically captured prompt log. Entries are appended in chronological order (
 ### 22-04-2026 16:27
 - **Prompt**: Append a new entry to JOURNAL.md at the repository root for this interaction dated 2026-04-22. Include that the user requested a code review for future risks; actions taken: reviewed main.py and README.md, checked for test_main.py existence; no code changes were made; key findings identified around O(n^2) scaling, edge-case dist==0 overlap handling, per-frame font allocation, dt-spike jitter probability, and README drift. Keep formatting consistent with existing journal template and append chronologically at end.
 
+### 22-04-2026 17:17
+- **Prompt**: Do the necessary fixes correctly try to keep code as is as much as possible, as i am a first year cs student
+

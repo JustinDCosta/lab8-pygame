@@ -790,3 +790,40 @@ I have made a few changes on the code to make the app more perfect. I would like
 - **Hook Version**: 1.02
 - **Date**: 22-04-2026 16:27
 - **Prompt**: Append a new entry to JOURNAL.md at the repository root for this interaction dated 2026-04-22. Include that the user requested a code review for future risks; actions taken: reviewed main.py and README.md, checked for test_main.py existence; no code changes were made; key findings identified around O(n^2) scaling, edge-case dist==0 overlap handling, per-frame font allocation, dt-spike jitter probability, and README drift. Keep formatting consistent with existing journal template and append chronologically at end.
+### **New Interaction**
+- **Agent Version**: 2.3
+- **Date**: 22-04-2026 16:28
+- **User**: justin.d-costa@epita.fr
+- **Prompt**: Append a new entry to JOURNAL.md at the repository root for this interaction dated 2026-04-22. Include that the user requested a code review for future risks; actions taken: reviewed main.py and README.md, checked for test_main.py existence; no code changes were made; key findings identified around O(n^2) scaling, edge-case dist==0 overlap handling, per-frame font allocation, dt-spike jitter probability, and README drift. Keep formatting consistent with existing journal template and append chronologically at end.
+- **CoPilot Mode**: Agent
+- **CoPilot Model**: GPT-5.3-Codex
+- **Socratic Mode**: ON
+- **Changes Made**: Reviewed main.py and README.md; checked for test_main.py; no code changes made.
+- **Context and Reasons for Changes**: Logged requested code-review-risk findings for future tracking: O(n^2) scaling risk, dist==0 overlap edge-case behavior, per-frame font allocation overhead, dt-spike jitter probability, and README drift.
+
+### **New Interaction**
+- **Agent Version**: 2.3
+- **Date**: 22-04-2026 16:28
+- **User**: justin.d-costa@epita.fr
+- **Prompt**: Append a new entry to JOURNAL.md at the repository root for this interaction dated 2026-04-22. Include that the user requested a code review for future risks; actions taken: reviewed main.py and README.md, checked for test_main.py existence; no code changes were made; key findings identified around O(n^2) scaling, edge-case dist==0 overlap handling, per-frame font allocation, dt-spike jitter probability, and README drift. Keep formatting consistent with existing journal template and append chronologically at end.
+- **CoPilot Mode**: Agent
+- **CoPilot Model**: GPT-5.3-Codex
+- **Socratic Mode**: ON
+- **Changes Made**: Reviewed main.py and README.md; checked for test_main.py; no code changes made.
+- **Context and Reasons for Changes**: Logged requested code-review-risk findings for future tracking: O(n^2) scaling risk, dist==0 overlap edge-case behavior, per-frame font allocation overhead, dt-spike jitter probability, and README drift.
+
+### **New Interaction**
+- **Agent Version**: 2.3
+- **Date**: 22-04-2026 16:28
+- **User**: justin.d-costa@epita.fr
+- **Prompt**: Append a new entry to JOURNAL.md at the repository root for this interaction dated 2026-04-22. Include that the user requested a code review for future risks; actions taken: reviewed main.py and README.md, checked for test_main.py existence; no code changes were made; key findings identified around O(n^2) scaling, edge-case dist==0 overlap handling, per-frame font allocation, dt-spike jitter probability, and README drift. Keep formatting consistent with existing journal template and append chronologically at end.
+- **CoPilot Mode**: Agent
+- **CoPilot Model**: GPT-5.3-Codex
+- **Socratic Mode**: ON
+- **Changes Made**: Reviewed main.py and README.md; checked for test_main.py; no code changes made.
+- **Context and Reasons for Changes**: Logged requested code-review-risk findings for future tracking: O(n^2) scaling risk, dist==0 overlap edge-case behavior, per-frame font allocation overhead, dt-spike jitter probability, and README drift.
+
+### **New Interaction**
+- **Hook Version**: 1.02
+- **Date**: 22-04-2026 17:17
+- **Prompt**: Do the necessary fixes correctly try to keep code as is as much as possible, as i am a first year cs student
