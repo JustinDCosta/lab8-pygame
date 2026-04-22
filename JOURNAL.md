@@ -783,35 +783,5 @@ I have made a few changes on the code to make the app more perfect. I would like
 
 ### **New Interaction**
 - **Hook Version**: 1.02
-- **Date**: 22-04-2026 14:06
-- **Prompt**: Forget socrates mode YOU DO IT fix the problems
-### **New Interaction**
-- **Agent Version**: 2.3
-- **Date**: 22-04-2026 12:10
-- **User**: justin.d-costa@epita.fr
-- **Prompt**: Forget socrates mode. YOU DO IT fix the problems.
-- **CoPilot Mode**: Edit
-- **CoPilot Model**: Gemini 3.1 Pro (Preview)
-- **Socratic Mode**: OFF
-- **Changes Made**: Disabled Socratic mode. Implemented overlap resolution, flee logic, and target-based chase logic based on MY_NOTES.md prioritizations.
-- **Context and Reasons for Changes**: User explicitly requested to turn off Socratic mode and fix the overlapping/chasing issues directly. Implemented logic that finds the closest valid target for bigger circles to chase with specific logic resolving tie-breakers by size, then distance. Added an overlap un-sticking logic.
-
-### **New Interaction**
-- **Hook Version**: 1.02
-- **Date**: 22-04-2026 15:26
-- **Prompt**: They all get stuck in the corner as they get cornered , what can be a fix for that
-### **New Interaction**
-- **Agent Version**: 2.3
-- **Date**: 22-04-2026 12:15
-- **User**: justin.d-costa@epita.fr
-- **Prompt**: They all get stuck in the corner as they get cornered , what can be a fix for that
-- **CoPilot Mode**: Edit
-- **CoPilot Model**: Gemini 3.1 Pro (Preview)
-- **Socratic Mode**: OFF
-- **Changes Made**: Added wall repulsion forces to prevent circles from getting trapped or pinned in the corners.
-- **Context and Reasons for Changes**: The user observed that fleeing entities were getting corner-trapped by chasing entities. Since overlap and bouncing alone can't counteract a continuous steering force pushing into a wall, added a "wall margin repulsion" logic (similar to the complex version) that accelerates circles away from boundaries when they get close.
-
-### **New Interaction**
-- **Hook Version**: 1.02
-- **Date**: 22-04-2026 15:28
-- **Prompt**: still gets stuck
+- **Date**: 22-04-2026 16:25
+- **Prompt**: I did it on my own this time. from the first and some of the features are still missing which i will add. But can you please check the code and tell me if there's anything that is or might cause problems in the future?
