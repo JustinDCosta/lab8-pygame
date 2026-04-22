@@ -149,3 +149,6 @@ Automatically captured prompt log. Entries are appended in chronological order (
 ### 22-04-2026 17:17
 - **Prompt**: Do the necessary fixes correctly try to keep code as is as much as possible, as i am a first year cs student
 
+### 22-04-2026 17:18
+- **Prompt**: Append a new entry to JOURNAL.md at repository root for interaction dated 2026-04-22. User asked to apply necessary fixes while keeping code mostly unchanged for a first-year CS student. Actions: updated main.py minimally (cached font outside loop, clamped jitter probability, used identity check for self comparison, handled dist==0 overlap edge case with random unit direction). Updated README.md to match current implementation details and removed references to missing test_main.py. Validation: get_errors reports no errors in main.py and README.md. Include concise rationale and keep existing journal formatting/template; append chronologically at end.
+
