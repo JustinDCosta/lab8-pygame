@@ -841,5 +841,5 @@ I have made a few changes on the code to make the app more perfect. I would like
 
 ### **New Interaction**
 - **Hook Version**: 1.02
-- **Date**: 22-04-2026 17:28
-- **Prompt**: add dying and rebirth feature within a few seconds. Code should be really simple and human readable just like original code
+- **Date**: 22-04-2026 17:34
+- **Prompt**: It is a dying and rebirth feature so the one that dies, will be reborn, right, so has to be of that color
