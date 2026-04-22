@@ -158,6 +158,6 @@ Automatically captured prompt log. Entries are appended in chronological order (
 ### 22-04-2026 19:49
 - **Prompt**: Give me easy stubs and hints to do it.
 
-### 22-04-2026 19:51
-- **Prompt**: do it for me correctly and simply in the main.py, with correct and simple comment, like the actual main.py
+### 22-04-2026 21:07
+- **Prompt**: I want to add optional special effects to when a circle dies and reborns. could you give me some idea on how the effect should look like and how i can implement it?
 
