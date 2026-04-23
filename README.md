@@ -47,9 +47,9 @@ Each circle has:
 ## Setup Guide
 
 ### Windows (PowerShell)
-1. Open PowerShell and move into the project folder.
+1. Open PowerShell and move into the project folder(wherever you want). Example:
 ```powershell
-cd "c:\Users\aldre\Documents\DRIVE\Class\AI For Software Development\labs\lab8-pygame"
+cd "c:\Users\USERNAME\Projects\Magnetic_Circles_pygame"
 ```
 
 2. Create a virtual environment.
