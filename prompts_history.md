@@ -188,3 +188,6 @@ Automatically captured prompt log. Entries are appended in chronological order (
 ### 23-04-2026 11:08
 - **Prompt**: Update the readme correctly and in details. From how to use it, to set it up, and also explanations on how it works.
 
+### 23-04-2026 11:12
+- **Prompt**: regenerate the code explorer site and call it code_explorer_v2.html, in docs folder. (do not overwrite the current one - v1)
+

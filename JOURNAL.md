@@ -1007,3 +1007,17 @@ I have made a few changes on the code to make the app more perfect. I would like
 - **Hook Version**: 1.02
 - **Date**: 23-04-2026 11:08
 - **Prompt**: Update the readme correctly and in details. From how to use it, to set it up, and also explanations on how it works.
+### **New Interaction**
+- **Date**: 23-04-2026 11:11
+- **Prompt**: Update the readme correctly and in details. From how to use it, to set it up, and also explanations on how it works.
+- **User**: justin.d-costa@epita.fr
+- **CoPilot Mode**: Edit
+- **CoPilot Model**: GPT-5.3-Codex
+- **Socratic Mode**: OFF
+- **Changes Made**: Rewrote README.md with complete setup steps, usage instructions, controls, configuration details, and a detailed explanation of simulation behavior aligned with main.py.
+- **Context and Reasons for Changes**: User requested a correct and detailed README covering setup, usage, and internal workings.
+
+### **New Interaction**
+- **Hook Version**: 1.02
+- **Date**: 23-04-2026 11:12
+- **Prompt**: regenerate the code explorer site and call it code_explorer_v2.html, in docs folder. (do not overwrite the current one - v1)
