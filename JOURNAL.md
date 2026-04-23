@@ -960,5 +960,5 @@ I have made a few changes on the code to make the app more perfect. I would like
 
 ### **New Interaction**
 - **Hook Version**: 1.02
-- **Date**: 23-04-2026 10:41
-- **Prompt**: First tell me how i can fix it, the code and explanation and then do it.
+- **Date**: 23-04-2026 10:46
+- **Prompt**: i changed it so it now tries more random positions first, then scans the whole screen for a spot that is not overlapping. Can you check the code now and is if it is correct. if not explain why it wont work.
