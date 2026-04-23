@@ -1005,24 +1005,5 @@ I have made a few changes on the code to make the app more perfect. I would like
 
 ### **New Interaction**
 - **Hook Version**: 1.02
-- **Date**: 23-04-2026 11:08
-- **Prompt**: Update the readme correctly and in details. From how to use it, to set it up, and also explanations on how it works.
-### **New Interaction**
-- **Date**: 23-04-2026 11:11
-- **Prompt**: Update the readme correctly and in details. From how to use it, to set it up, and also explanations on how it works.
-- **User**: justin.d-costa@epita.fr
-- **CoPilot Mode**: Edit
-- **CoPilot Model**: GPT-5.3-Codex
-- **Socratic Mode**: OFF
-- **Changes Made**: Rewrote README.md with complete setup steps, usage instructions, controls, configuration details, and a detailed explanation of simulation behavior aligned with main.py.
-- **Context and Reasons for Changes**: User requested a correct and detailed README covering setup, usage, and internal workings.
-
-### **New Interaction**
-- **Hook Version**: 1.02
-- **Date**: 23-04-2026 11:12
-- **Prompt**: regenerate the code explorer site and call it code_explorer_v2.html, in docs folder. (do not overwrite the current one - v1)
-
-### **New Interaction**
-- **Hook Version**: 1.02
-- **Date**: 23-04-2026 11:13
-- **Prompt**: Create a new code learning dashboard HTML file for this repository's Python code, focused on main.py. Write the output to docs/code_explorer_v2.html. Do NOT modify or overwrite docs/code_explorer.html. The page should be a complete standalone HTML document with polished styling, architecture walkthrough, behavior explanation, and Mermaid diagrams where useful. Include beginner-friendly explanations and section navigation. Ensure links and references are local and safe. Return a brief summary of what was generated and confirm output path.
+- **Date**: 23-04-2026 11:27
+- **Prompt**: 1.current.respawn returns False when no safe position exists, but the caller ignores that value. Because age is already over lifespan, the same circle can repeatedly trigger death and rebirth effects every frame without a valid reset, which can create visual spam and logic drift.   Improvement: Check respawn success and gate rebirth creation; if respawn fails, reset age or retry with fallback policy.    2. Forces and ranges like 600, 800, 2500, 180, and 350 are embedded directly in logic, making behavior intent harder to reason about.   Improvement hint: move force and range values to named constants grouped by circle size.   3. add type hints everyhere possible
