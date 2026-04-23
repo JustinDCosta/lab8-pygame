@@ -1076,3 +1076,8 @@ I have made a few changes on the code to make the app more perfect. I would like
 - **Hook Version**: 1.02
 - **Date**: 23-04-2026 11:45
 - **Prompt**: regenerate the code explorer site and call it code_explorer_v2.html
+
+### **New Interaction**
+- **Hook Version**: 1.02
+- **Date**: 23-04-2026 11:45
+- **Prompt**: Generate a fresh code explorer learning dashboard for this repository and save it as docs/code_explorer_v2.html (overwrite if it exists). Analyze the Python source code in main.py and produce a single self-contained HTML file with: - architecture overview - data flow explanation - function/class breakdown - behavior and physics rules - beginner-friendly explanations - at least one Mermaid diagram embedded/renderable Ensure the output is complete and directly viewable in a browser with no external build step.
