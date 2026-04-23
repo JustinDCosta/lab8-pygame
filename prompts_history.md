@@ -185,3 +185,6 @@ Automatically captured prompt log. Entries are appended in chronological order (
 ### 23-04-2026 10:58
 - **Prompt**: Write appropriate, easy to understand comments everywhere, even replacniog the ones that are currently, making it understandable by any follow programmer as to what is going on. Also have explanations of code where necessary for a 1st year cs student.
 
+### 23-04-2026 11:08
+- **Prompt**: Update the readme correctly and in details. From how to use it, to set it up, and also explanations on how it works.
+

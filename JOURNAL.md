@@ -374,6 +374,16 @@ I have made a few changes on the code to make the app more perfect. I would like
 - **Context and Reasons for Changes**: User asked for a correction to the respawn fallback so it no longer returns an overlapping position.
 
 ### **New Interaction**
+- **Date**: 23-04-2026 10:59
+- **Prompt**: Write appropriate, easy to understand comments everywhere, even replacniog the ones that are currently, making it understandable by any follow programmer as to what is going on. Also have explanations of code where necessary for a 1st year cs student.
+- **User**: justin.d-costa@epita.fr
+- **CoPilot Mode**: Edit
+- **CoPilot Model**: GPT-5.4 mini
+- **Socratic Mode**: OFF
+- **Changes Made**: Simplified and clarified the comments throughout main.py so they explain the control flow, physics, drawing, and respawn logic in beginner-friendly language.
+- **Context and Reasons for Changes**: User requested clearer comments and more explanatory wording for a first-year CS student.
+
+### **New Interaction**
 - **Date**: 2026-04-22 00:00
 - **Prompt**: could you guide me on how i can fix that. Go in depth since I am a first year CS student.
 - **CoPilot Mode**: Edit
@@ -992,3 +1002,8 @@ I have made a few changes on the code to make the app more perfect. I would like
 - **Hook Version**: 1.02
 - **Date**: 23-04-2026 10:58
 - **Prompt**: Write appropriate, easy to understand comments everywhere, even replacniog the ones that are currently, making it understandable by any follow programmer as to what is going on. Also have explanations of code where necessary for a 1st year cs student.
+
+### **New Interaction**
+- **Hook Version**: 1.02
+- **Date**: 23-04-2026 11:08
+- **Prompt**: Update the readme correctly and in details. From how to use it, to set it up, and also explanations on how it works.
