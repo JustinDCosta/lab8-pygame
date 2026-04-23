@@ -188,3 +188,6 @@ Automatically captured prompt log. Entries are appended in chronological order (
 ### 23-04-2026 11:37
 - **Prompt**: Append a new entry to JOURNAL.md at repo root for this interaction, using the required template from .github/agents/journal-logger.agent.md and preserving chronological append-only order.  Use these details: - Prompt (verbatim): Write appropriate, easy to understand comments everywhere(in details explaining how and why where possible), even replacniog the ones that are currently, making it understandable by any follow programmer as to what is going on. Also have explanations of code where necessary for a 1st year cs student. - CoPilot Mode: Edit - CoPilot Model: GPT-5.3-Codex - Socratic Mode: ON - Changes Made: Rewrote and expanded comments/docstrings across main.py in beginner-friendly language, replacing prior comments while preserving behavior. - Context and Reasons for Changes: User requested detailed, easy-to-understand explanations of code flow and reasoning suitable for first-year CS students.  Follow silent logging behavior and perform append with integrity safeguards.
 
+### 23-04-2026 11:40
+- **Prompt**: Update the readme correctly and in details. From how to use it, to set it up, and also explanations on how it works.
+
