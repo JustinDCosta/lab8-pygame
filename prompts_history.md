@@ -176,3 +176,6 @@ Automatically captured prompt log. Entries are appended in chronological order (
 ### 23-04-2026 10:37
 - **Prompt**: Check the code again to find any issues with it
 
+### 23-04-2026 10:41
+- **Prompt**: First tell me how i can fix it, the code and explanation and then do it.
+
