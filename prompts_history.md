@@ -182,9 +182,6 @@ Automatically captured prompt log. Entries are appended in chronological order (
 ### 23-04-2026 10:48
 - **Prompt**: Could you correct that for me and explain how you did it. I cant seem to get this.
 
-### 23-04-2026 10:58
-- **Prompt**: Write appropriate, easy to understand comments everywhere, even replacniog the ones that are currently, making it understandable by any follow programmer as to what is going on. Also have explanations of code where necessary for a 1st year cs student.
-
-### 23-04-2026 11:27
-- **Prompt**: 1.current.respawn returns False when no safe position exists, but the caller ignores that value. Because age is already over lifespan, the same circle can repeatedly trigger death and rebirth effects every frame without a valid reset, which can create visual spam and logic drift.   Improvement: Check respawn success and gate rebirth creation; if respawn fails, reset age or retry with fallback policy.    2. Forces and ranges like 600, 800, 2500, 180, and 350 are embedded directly in logic, making behavior intent harder to reason about.   Improvement hint: move force and range values to named constants grouped by circle size.   3. add type hints everyhere possible
+### 23-04-2026 11:35
+- **Prompt**: Write appropriate, easy to understand comments everywhere(in details explaining how and why where possible), even replacniog the ones that are currently, making it understandable by any follow programmer as to what is going on. Also have explanations of code where necessary for a 1st year cs student.
 
