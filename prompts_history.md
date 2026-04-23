@@ -191,3 +191,6 @@ Automatically captured prompt log. Entries are appended in chronological order (
 ### 23-04-2026 11:40
 - **Prompt**: Update the readme correctly and in details. From how to use it, to set it up, and also explanations on how it works.
 
+### 23-04-2026 11:42
+- **Prompt**: Append a new entry to JOURNAL.md at repo root for this interaction, using the template in .github/agents/journal-logger.agent.md and appending at the end.  Use these exact details: - Prompt (verbatim): Update the readme correctly and in details. From how to use it, to set it up, and also explanations on how it works. - CoPilot Mode: Edit - CoPilot Model: GPT-5.3-Codex - Socratic Mode: ON - Changes Made: Rewrote README.md with detailed setup instructions (Windows and macOS/Linux), run instructions, controls, full configuration reference, architecture/how-it-works explanation, and troubleshooting guidance aligned with current main.py behavior. - Context and Reasons for Changes: User requested a correct, detailed README covering setup, usage, and internal working explanation for the project.  Follow silent logging behavior and integrity safeguards.
+
