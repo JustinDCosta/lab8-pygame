@@ -1021,3 +1021,8 @@ I have made a few changes on the code to make the app more perfect. I would like
 - **Hook Version**: 1.02
 - **Date**: 23-04-2026 11:12
 - **Prompt**: regenerate the code explorer site and call it code_explorer_v2.html, in docs folder. (do not overwrite the current one - v1)
+
+### **New Interaction**
+- **Hook Version**: 1.02
+- **Date**: 23-04-2026 11:13
+- **Prompt**: Create a new code learning dashboard HTML file for this repository's Python code, focused on main.py. Write the output to docs/code_explorer_v2.html. Do NOT modify or overwrite docs/code_explorer.html. The page should be a complete standalone HTML document with polished styling, architecture walkthrough, behavior explanation, and Mermaid diagrams where useful. Include beginner-friendly explanations and section navigation. Ensure links and references are local and safe. Return a brief summary of what was generated and confirm output path.
