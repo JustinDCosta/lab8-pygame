@@ -182,3 +182,6 @@ Automatically captured prompt log. Entries are appended in chronological order (
 ### 23-04-2026 10:48
 - **Prompt**: Could you correct that for me and explain how you did it. I cant seem to get this.
 
+### 23-04-2026 10:58
+- **Prompt**: Write appropriate, easy to understand comments everywhere, even replacniog the ones that are currently, making it understandable by any follow programmer as to what is going on. Also have explanations of code where necessary for a 1st year cs student.
+
