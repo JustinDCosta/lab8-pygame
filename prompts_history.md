@@ -170,3 +170,6 @@ Automatically captured prompt log. Entries are appended in chronological order (
 ### 22-04-2026 21:18
 - **Prompt**: Do this for me, but also give me an in depth explanation of the work so that i can understand it, incase i miss anything out.
 
+### 23-04-2026 10:26
+- **Prompt**: lets add those on screen help hint and reset key amd a pause support.
+
