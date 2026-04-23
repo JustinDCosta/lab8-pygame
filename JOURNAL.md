@@ -5,15 +5,15 @@
 - **Date**: 30-03-2026 12:57
 - **Prompt**: read #copilot-instructions and #journal-logger.agent
 ### **New Interaction**
-- **Agent Version**: 2.2
-- **Date**: 30-03-2026 12:57
-- **User**:  justin.d-costa@epita.fr
-- **Prompt**: read #copilot-instructions and #journal-logger.agent
-- **CoPilot Mode**: Agent
-- **CoPilot Model**: GPT-5.3-Codex
-- **Socratic Mode**: ON
-- **Changes Made**: Read instruction files; no code changes.
-- **Context and Reasons for Changes**: User requested loading instruction documents to align behavior for this session.
+
+### **New Interaction**
+- **Date**: 2026-04-23 00:00
+- **Prompt**: small on screen legend box will look nice
+- **CoPilot Mode**: Edit
+- **CoPilot Model**: GPT-5.4 mini
+- **Socratic Mode**: OFF
+- **Changes Made**: Replaced the plain on-screen help text with a small translucent legend box in main.py.
+- **Context and Reasons for Changes**: User wanted the controls and status display to look cleaner and more polished.
 
 
 ### **New Interaction**
@@ -952,5 +952,5 @@ I have made a few changes on the code to make the app more perfect. I would like
 
 ### **New Interaction**
 - **Hook Version**: 1.02
-- **Date**: 23-04-2026 10:29
-- **Prompt**: small on screen legend box will look nice
+- **Date**: 23-04-2026 10:37
+- **Prompt**: Check the code again to find any issues with it
