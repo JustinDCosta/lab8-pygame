@@ -410,6 +410,15 @@ I have made a few changes on the code to make the app more perfect. I would like
 - **Changes Made**: Added runtime simulation speed controls in main.py using keyboard input and scaled delta time.
 - **Context and Reasons for Changes**: User requested full implementation plus an in-depth explanation.
 
+### **New Interaction**
+- **Date**: 2026-04-23 00:00
+- **Prompt**: lets add those on screen help hint and reset key amd a pause support.
+- **CoPilot Mode**: Edit
+- **CoPilot Model**: GPT-5.4 mini
+- **Socratic Mode**: OFF
+- **Changes Made**: Added on-screen help text, a speed reset key, and pause/resume support in main.py.
+- **Context and Reasons for Changes**: User requested UI hints plus simple runtime controls for reset and pause.
+
 
 ### **New Interaction**
 - **Hook Version**: 1.02
@@ -940,3 +949,8 @@ I have made a few changes on the code to make the app more perfect. I would like
 - **Hook Version**: 1.02
 - **Date**: 23-04-2026 10:26
 - **Prompt**: lets add those on screen help hint and reset key amd a pause support.
+
+### **New Interaction**
+- **Hook Version**: 1.02
+- **Date**: 23-04-2026 10:29
+- **Prompt**: small on screen legend box will look nice
