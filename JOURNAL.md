@@ -1184,3 +1184,19 @@ I have made a few changes on the code to make the app more perfect. I would like
 - **Hook Version**: 1.02
 - **Date**: 26-04-2026 04:15
 - **Prompt**: Append a new JOURNAL.md entry for this interaction. Agent Version: 2.3 Date: 26-04-2026 (local current time) User: justin.d-costa@epita.fr Prompt (verbatim): 1. CoPilot Mode: Edit CoPilot Model: GPT-5.3-Codex Socratic Mode: ON Changes Made: Expanded comments in refactored helper functions and main loop to a more beginner-friendly, step-by-step style with clearer plain-language explanations. Context and Reasons for Changes: User selected option 1 (more explicit comments) from prior style options. Operate silently and return status only.
+### **New Interaction
+- **Agent Version**: 2.3
+- **Date**: 26-04-2026 04:16
+- **User**: justin.d-costa@epita.fr
+- **Prompt**: 1.
+- **CoPilot Mode**: Edit
+- **CoPilot Model**: GPT-5.3-Codex
+- **Socratic Mode**: ON
+- **Changes Made**: Expanded comments in refactored helper functions and main loop to a more beginner-friendly, step-by-step style with clearer plain-language explanations.
+- **Context and Reasons for Changes**: User selected option 1 (more explicit comments) from prior style options.
+
+
+### **New Interaction**
+- **Hook Version**: 1.02
+- **Date**: 26-04-2026 04:19
+- **Prompt**: The comments are like, we will do this and that. make it in a style like: this is doing this and that, instead oif we and stuff.
