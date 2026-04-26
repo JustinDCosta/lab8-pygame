@@ -1140,3 +1140,42 @@ I have made a few changes on the code to make the app more perfect. I would like
 - **Hook Version**: 1.02
 - **Date**: 26-04-2026 04:13
 - **Prompt**: Append a new entry to JOURNAL.md at repository root for this interaction. Use Agent Version 2.3 template. Date/time: 26-04-2026 (current local time acceptable). User: justin.d-costa@epita.fr (stable normalized value). Prompt (verbatim): The comments are missing in the new places, i want them to be detailed and correct and make sense like the other comments so that it is easier to understand and navigate. CoPilot Mode: Edit CoPilot Model: GPT-5.3-Codex Socratic Mode: ON Changes Made: Added detailed, context-rich inline comments throughout newly extracted helper functions and main loop sections in main.py to match existing comment style and improve navigability. Context and Reasons for Changes: User requested clearer, more detailed comments in refactored areas without changing behavior. Operate silently and return status only.
+### **New Interaction
+- **Agent Version**: 2.3
+- **Date**: 26-04-2026 04:13
+- **User**: justin.d-costa@epita.fr
+- **Prompt**: The comments are missing in the new places, i want them to be detailed and correct and make sense like the other comments so that it is easier to understand and navigate.
+- **CoPilot Mode**: Edit
+- **CoPilot Model**: GPT-5.3-Codex
+- **Socratic Mode**: ON
+- **Changes Made**: Added detailed, context-rich inline comments throughout newly extracted helper functions and main loop sections in main.py to match existing comment style and improve navigability.
+- **Context and Reasons for Changes**: User requested clearer, more detailed comments in refactored areas without changing behavior.
+
+
+### **New Interaction
+- **Agent Version**: 2.3
+- **Date**: 26-04-2026 04:13
+- **User**: justin.d-costa@epita.fr
+- **Prompt**: The comments are missing in the new places, i want them to be detailed and correct and make sense like the other comments so that it is easier to understand and navigate.
+- **CoPilot Mode**: Edit
+- **CoPilot Model**: GPT-5.3-Codex
+- **Socratic Mode**: ON
+- **Changes Made**: Added detailed, context-rich inline comments throughout newly extracted helper functions and main loop sections in main.py to match existing comment style and improve navigability.
+- **Context and Reasons for Changes**: User requested clearer, more detailed comments in refactored areas without changing behavior.
+
+### **New Interaction
+- **Agent Version**: 2.3
+- **Date**: 26-04-2026 04:13
+- **User**: justin.d-costa@epita.fr
+- **Prompt**: The comments are missing in the new places, i want them to be detailed and correct and make sense like the other comments so that it is easier to understand and navigate.
+- **CoPilot Mode**: Edit
+- **CoPilot Model**: GPT-5.3-Codex
+- **Socratic Mode**: ON
+- **Changes Made**: Added detailed, context-rich inline comments throughout newly extracted helper functions and main loop sections in main.py to match existing comment style and improve navigability.
+- **Context and Reasons for Changes**: User requested clearer, more detailed comments in refactored areas without changing behavior.
+
+
+### **New Interaction**
+- **Hook Version**: 1.02
+- **Date**: 26-04-2026 04:15
+- **Prompt**: 1.
