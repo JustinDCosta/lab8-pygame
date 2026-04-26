@@ -209,21 +209,3 @@ Automatically captured prompt log. Entries are appended in chronological order (
 ### 26-04-2026 04:07
 - **Prompt**: Append a new entry to JOURNAL.md at repository root for this interaction. Use Agent Version 2.3 and the exact template from .github/agents/journal-logger.agent.md. Date/time: 26-04-2026 (current local time acceptable). User normalization: keep existing value stable from prior entries (justin.d-costa@epita.fr). Prompt (verbatim): My main() function is a overcrowded. It is doing too much and is also hard to read. How can we simplify and fix it? CoPilot Mode: Edit CoPilot Model: GPT-5.3-Codex Socratic Mode: ON Changes Made: Refactored main.py by extracting setup, input handling, simulation update, effects update, and rendering logic into helper functions; simplified main loop orchestration. Context and Reasons for Changes: Improve readability and maintainability of an overcrowded main() while preserving behavior. Perform silent operation and only return status.
 
-### 26-04-2026 04:12
-- **Prompt**: The comments are missing in the new places, i want them to be detailed and correct and make sense like the other comments so that it is easier to understand and navigate.
-
-### 26-04-2026 04:13
-- **Prompt**: Append a new entry to JOURNAL.md at repository root for this interaction. Use Agent Version 2.3 template. Date/time: 26-04-2026 (current local time acceptable). User: justin.d-costa@epita.fr (stable normalized value). Prompt (verbatim): The comments are missing in the new places, i want them to be detailed and correct and make sense like the other comments so that it is easier to understand and navigate. CoPilot Mode: Edit CoPilot Model: GPT-5.3-Codex Socratic Mode: ON Changes Made: Added detailed, context-rich inline comments throughout newly extracted helper functions and main loop sections in main.py to match existing comment style and improve navigability. Context and Reasons for Changes: User requested clearer, more detailed comments in refactored areas without changing behavior. Operate silently and return status only.
-
-### 26-04-2026 04:15
-- **Prompt**: 1.
-
-### 26-04-2026 04:15
-- **Prompt**: Append a new JOURNAL.md entry for this interaction. Agent Version: 2.3 Date: 26-04-2026 (local current time) User: justin.d-costa@epita.fr Prompt (verbatim): 1. CoPilot Mode: Edit CoPilot Model: GPT-5.3-Codex Socratic Mode: ON Changes Made: Expanded comments in refactored helper functions and main loop to a more beginner-friendly, step-by-step style with clearer plain-language explanations. Context and Reasons for Changes: User selected option 1 (more explicit comments) from prior style options. Operate silently and return status only.
-
-### 26-04-2026 04:19
-- **Prompt**: The comments are like, we will do this and that. make it in a style like: this is doing this and that, instead oif we and stuff.
-
-### 26-04-2026 04:20
-- **Prompt**: Append a new JOURNAL.md entry for this interaction. Agent Version: 2.3 Date: 26-04-2026 (local current time) User: justin.d-costa@epita.fr Prompt (verbatim): The comments are like, we will do this and that. make it in a style like: this is doing this and that, instead oif we and stuff. CoPilot Mode: Edit CoPilot Model: GPT-5.3-Codex Socratic Mode: ON Changes Made: Rewrote first-person comments in main.py to objective style (removed we/we will phrasing) while preserving beginner-friendly clarity. Context and Reasons for Changes: User requested comment voice change from first-person to descriptive/objective wording. Operate silently and return status only.
-
