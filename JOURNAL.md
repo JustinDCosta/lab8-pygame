@@ -1113,3 +1113,8 @@ I have made a few changes on the code to make the app more perfect. I would like
 - **Hook Version**: 1.02
 - **Date**: 26-04-2026 04:06
 - **Prompt**: My main() function is a overcrowded. It is doing too much and is also hard to read. How can we simplify and fix it?
+
+### **New Interaction**
+- **Hook Version**: 1.02
+- **Date**: 26-04-2026 04:07
+- **Prompt**: Append a new entry to JOURNAL.md at repository root for this interaction. Use Agent Version 2.3 and the exact template from .github/agents/journal-logger.agent.md. Date/time: 26-04-2026 (current local time acceptable). User normalization: keep existing value stable from prior entries (justin.d-costa@epita.fr). Prompt (verbatim): My main() function is a overcrowded. It is doing too much and is also hard to read. How can we simplify and fix it? CoPilot Mode: Edit CoPilot Model: GPT-5.3-Codex Socratic Mode: ON Changes Made: Refactored main.py by extracting setup, input handling, simulation update, effects update, and rendering logic into helper functions; simplified main loop orchestration. Context and Reasons for Changes: Improve readability and maintainability of an overcrowded main() while preserving behavior. Perform silent operation and only return status.
