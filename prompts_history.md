@@ -224,3 +224,6 @@ Automatically captured prompt log. Entries are appended in chronological order (
 ### 26-04-2026 04:19
 - **Prompt**: The comments are like, we will do this and that. make it in a style like: this is doing this and that, instead oif we and stuff.
 
+### 26-04-2026 04:20
+- **Prompt**: Append a new JOURNAL.md entry for this interaction. Agent Version: 2.3 Date: 26-04-2026 (local current time) User: justin.d-costa@epita.fr Prompt (verbatim): The comments are like, we will do this and that. make it in a style like: this is doing this and that, instead oif we and stuff. CoPilot Mode: Edit CoPilot Model: GPT-5.3-Codex Socratic Mode: ON Changes Made: Rewrote first-person comments in main.py to objective style (removed we/we will phrasing) while preserving beginner-friendly clarity. Context and Reasons for Changes: User requested comment voice change from first-person to descriptive/objective wording. Operate silently and return status only.
+
