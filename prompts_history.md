@@ -209,3 +209,6 @@ Automatically captured prompt log. Entries are appended in chronological order (
 ### 26-04-2026 04:07
 - **Prompt**: Append a new entry to JOURNAL.md at repository root for this interaction. Use Agent Version 2.3 and the exact template from .github/agents/journal-logger.agent.md. Date/time: 26-04-2026 (current local time acceptable). User normalization: keep existing value stable from prior entries (justin.d-costa@epita.fr). Prompt (verbatim): My main() function is a overcrowded. It is doing too much and is also hard to read. How can we simplify and fix it? CoPilot Mode: Edit CoPilot Model: GPT-5.3-Codex Socratic Mode: ON Changes Made: Refactored main.py by extracting setup, input handling, simulation update, effects update, and rendering logic into helper functions; simplified main loop orchestration. Context and Reasons for Changes: Improve readability and maintainability of an overcrowded main() while preserving behavior. Perform silent operation and only return status.
 
+### 26-04-2026 04:12
+- **Prompt**: The comments are missing in the new places, i want them to be detailed and correct and make sense like the other comments so that it is easier to understand and navigate.
+
