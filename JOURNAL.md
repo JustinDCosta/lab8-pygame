@@ -1147,6 +1147,22 @@ I have made a few changes on the code to make the app more perfect. I would like
 - **Context and Reasons for Changes**: User requested architecture documentation for the current project, so I traced the actual control flow in main.py and documented it in Markdown and static HTML.
 
 ### **New Interaction**
+- **Agent Version**: 2.3
+- **Date**: 27-04-2026 14:30
+- **User**: justin.d-costa@epita.fr
+- **Prompt**: generate the flash quiz site for this project
+- **CoPilot Mode**: Edit
+- **CoPilot Model**: GPT-5.4 mini
+- **Socratic Mode**: ON
+- **Changes Made**: Created docs/study_tool.html as a self-contained study tool with deterministic flashcards, 15 quiz questions, click-to-flip cards, quiz navigation, grading, results, and DOM validation tied to main.py.
+- **Context and Reasons for Changes**: User requested the flash quiz site for the current project, so I generated a single-file offline-friendly study tool grounded in the actual Python runtime behavior.
+
+### **New Interaction**
 - **Hook Version**: 1.02
 - **Date**: 27-04-2026 14:29
 - **Prompt**: generate the flash quiz site for this project
+
+### **New Interaction**
+- **Hook Version**: 1.02
+- **Date**: 27-04-2026 14:41
+- **Prompt**: analyze this project and produce a light refactoring plan
