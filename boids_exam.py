@@ -154,7 +154,22 @@ class Boid:
     # Then divide by the number of nearby boids to get the average position, 
     # and subtract the current boid's position to get the cohesion steering force.
     def _cohesion(self, boids: List['Boid']) -> pygame.Vector2:
-        steer : pygame.Vector2 = pygame.Vector2(0, 0)
+        steer: pygame.Vector2 = pygame.Vector2(0, 0)
+        count: int = 0
+        for other in boids:
+            if other is not self:
+                dist: float = math.hypot(self.x - other.x, self.y - other.y)
+                if 0 < dist < config.COHESION_DISTANCE:
+                    steer.x += other.x
+                    steer.y += other.y
+                    count += 1
+                    
+        if count > 0:
+            steer.x /= count
+            steer.y /= count
+            steer.x -= self.x
+            steer.y -= self.y
+            
         return steer
         
 
