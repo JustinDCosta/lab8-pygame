@@ -269,21 +269,19 @@ class Circle:
         self.lifespan = random.uniform(3.0, 7.0)
 
     def respawn(self, circles: list["Circle"]) -> bool:
-        """Attempt to restart this circle with a new size and safe position.
+        """Attempt to restart this circle with the same size and safe position.
 
         Returns:
             True if respawn succeeded.
             False if no safe position exists yet.
         """
 
-        # Choose candidate size first, then look for a position that does not overlap.
-        new_radius = random.choice(CIRCLE_SIZES)
-        position = find_safe_position(new_radius, circles, self)
+        # Keep the same size, then look for a position that does not overlap.
+        position = find_safe_position(self.radius, circles, self)
 
         if position is None:
             return False
 
-        self.radius = new_radius
         self.x, self.y = position
 
         # New life starts with a fresh random velocity.
