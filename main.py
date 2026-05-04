@@ -47,6 +47,7 @@ FLEE_FORCE = 800.0
 CHASE_FORCE = 600.0
 OVERLAP_PUSH_FACTOR = 0.5
 TARGET_TIE_DISTANCE = 5.0
+MAX_CIRCLE_RADIUS = 60
 
 # Jitter adds a small random direction change over time so movement looks organic.
 JITTER_CHANCE_BASE_60FPS = 0.05
@@ -82,7 +83,7 @@ def overlaps_circle(
     """
 
     for other in circles:
-        if other is ignore_circle:
+        if other is ignore_circle or other.radius == 0:
             continue
 
         dx = x - other.x
@@ -254,7 +255,8 @@ class Circle:
             random.randint(50, 255),
         )
         # Radius determines behavior profile (speed cap and chase range).
-        self.radius = random.choice(CIRCLE_SIZES)
+        self.base_radius = random.choice(CIRCLE_SIZES)
+        self.radius = self.base_radius
 
         # Initial position and velocity are random to distribute circles across the world.
         self.x = random.randint(self.radius, WIDTH - self.radius)
@@ -267,19 +269,20 @@ class Circle:
         self.lifespan = random.uniform(3.0, 7.0)
 
     def respawn(self, circles: list["Circle"]) -> bool:
-        """Attempt to restart this circle with the same size and safe position.
+        """Attempt to restart this circle with its original base size and a safe position.
 
         Returns:
             True if respawn succeeded.
             False if no safe position exists yet.
         """
 
-        # Keep the same size, then look for a position that does not overlap.
-        position = find_safe_position(self.radius, circles, self)
+        # Restore original base size, then look for a position that does not overlap.
+        position = find_safe_position(self.base_radius, circles, self)
 
         if position is None:
             return False
 
+        self.radius = self.base_radius
         self.x, self.y = position
 
         # New life starts with a fresh random velocity.
@@ -391,7 +394,7 @@ def handle_lifecycle_and_respawn(
     old_x = current.x
     old_y = current.y
     old_color = current.color
-    old_radius = current.radius
+    old_radius = current.radius if current.radius > 0 else current.base_radius
 
     # Try to respawn this same object in a non-overlapping position.
     # It can fail if there is no free space right now.
@@ -457,8 +460,8 @@ def apply_interactions(
     """Resolve overlap/flee/chase selection against all other circles."""
 
     # How far this circle is allowed to search for prey.
-    # Small circles have 0 chase radius, so they do not chase at all.
-    chase_radius = CHASE_RADIUS_BY_SIZE.get(current.radius, 0.0)
+    # Small circles have 0 chase radius. Scale it up for custom grown sizes.
+    chase_radius = CHASE_RADIUS_BY_SIZE.get(current.radius, current.radius * 14.0)
 
     # Keep track of the best chase target found so far.
     target: Circle | None = None
@@ -467,6 +470,10 @@ def apply_interactions(
     # Compare with every other circle for overlap/flee/chase rules.
     for other in circles:
         if current is other:
+            continue
+
+        # Dead circles waiting to respawn don't interact.
+        if current.radius == 0 or other.radius == 0:
             continue
 
         # Vector from `other` to `current`.
@@ -487,8 +494,21 @@ def apply_interactions(
         if check_collision(current, other):
             if current.radius > other.radius:
                 other.age = other.lifespan
+                
+                # Grow proportionally to the eaten circle's area
+                new_area = (current.radius ** 2) + (other.radius ** 2)
+                current.radius = min(MAX_CIRCLE_RADIUS, int(math.sqrt(new_area)))
+                
+                # Hide prey so it can't be eaten again while waiting to respawn
+                other.radius = 0
             elif current.radius < other.radius:
                 current.age = current.lifespan
+                
+                new_area = (other.radius ** 2) + (current.radius ** 2)
+                other.radius = min(MAX_CIRCLE_RADIUS, int(math.sqrt(new_area)))
+                
+                current.radius = 0
+                continue
             else:
                 overlap_amount = min_dist - dist
                 # Push this circle away to separate overlaps gradually.
@@ -555,7 +575,12 @@ def clamp_circle_speed(current: Circle) -> None:
 
     # Different sizes use different max speeds.
     # This makes larger circles feel heavier/slower.
-    max_speed = MAX_SPEED_BY_SIZE.get(current.radius, 200.0)
+    if current.radius in MAX_SPEED_BY_SIZE:
+        max_speed = MAX_SPEED_BY_SIZE[current.radius]
+    else:
+        # Calculate slower speeds for circles that have grown.
+        max_speed = max(50.0, 150.0 - (current.radius - 25) * 2.0)
+
     current_speed = math.sqrt(current.vx**2 + current.vy**2)
 
     if current_speed <= max_speed:
