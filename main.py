@@ -40,13 +40,11 @@ MAX_SPEED_BY_SIZE: dict[int, float] = {
 }
 
 # Physics tuning constants.
-# These values control overlap handling, flee/chase strength, and wall behavior.
+# These values control overlap handling and flee/chase strength.
 SPAWN_PADDING = 3
 FLEE_RANGE = 180.0
 FLEE_FORCE = 800.0
 CHASE_FORCE = 600.0
-WALL_MARGIN = 60.0
-WALL_REPEL_FORCE = 2500.0
 OVERLAP_PUSH_FACTOR = 0.5
 TARGET_TIE_DISTANCE = 5.0
 
@@ -554,37 +552,19 @@ def clamp_circle_speed(current: Circle) -> None:
     current.vy = (current.vy / current_speed) * max_speed
 
 
-def apply_wall_forces_and_bounce(current: Circle, sim_dt: float) -> None:
-    """Apply soft wall repulsion and hard boundary collision."""
+def apply_screen_wrap(current: Circle) -> None:
+    """Wrap circle positions around the screen edges."""
 
-    # Soft wall behavior:
-    # Start pushing circles away before they touch the border.
-    wall_margin = WALL_MARGIN
-    if current.x < current.radius + wall_margin:
-        current.vx += WALL_REPEL_FORCE * sim_dt
-    elif current.x > WIDTH - current.radius - wall_margin:
-        current.vx -= WALL_REPEL_FORCE * sim_dt
+    # If a circle crosses the boundary, move it to the opposite side.
+    if current.x < -current.radius:
+        current.x = WIDTH + current.radius
+    elif current.x > WIDTH + current.radius:
+        current.x = -current.radius
 
-    if current.y < current.radius + wall_margin:
-        current.vy += WALL_REPEL_FORCE * sim_dt
-    elif current.y > HEIGHT - current.radius - wall_margin:
-        current.vy -= WALL_REPEL_FORCE * sim_dt
-
-    # Hard wall behavior:
-    # If a circle crosses the boundary, clamp it back inside and reflect velocity.
-    if current.x - current.radius < 0:
-        current.x = current.radius
-        current.vx = abs(current.vx)
-    elif current.x + current.radius > WIDTH:
-        current.x = WIDTH - current.radius
-        current.vx = -abs(current.vx)
-
-    if current.y - current.radius < 0:
-        current.y = current.radius
-        current.vy = abs(current.vy)
-    elif current.y + current.radius > HEIGHT:
-        current.y = HEIGHT - current.radius
-        current.vy = -abs(current.vy)
+    if current.y < -current.radius:
+        current.y = HEIGHT + current.radius
+    elif current.y > HEIGHT + current.radius:
+        current.y = -current.radius
 
 
 def update_circle(current: Circle, circles: list[Circle], effects: list[Effect], sim_dt: float) -> None:
@@ -605,7 +585,7 @@ def update_circle(current: Circle, circles: list[Circle], effects: list[Effect],
 
     # Step 4: Enforce safety constraints.
     clamp_circle_speed(current)
-    apply_wall_forces_and_bounce(current, sim_dt)
+    apply_screen_wrap(current)
 
 
 def update_effects(effects: list[Effect], sim_dt: float) -> None:
