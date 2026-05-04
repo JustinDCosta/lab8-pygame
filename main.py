@@ -48,6 +48,7 @@ CHASE_FORCE = 600.0
 OVERLAP_PUSH_FACTOR = 0.5
 TARGET_TIE_DISTANCE = 5.0
 MAX_CIRCLE_RADIUS = 60
+GROWTH_SPEED = 0.5
 
 # Jitter adds a small random direction change over time so movement looks organic.
 JITTER_CHANCE_BASE_60FPS = 0.05
@@ -76,7 +77,7 @@ class Particle(TypedDict):
 def overlaps_circle(
     x: float,
     y: float,
-    radius: int,
+    radius: float,
     circles: list["Circle"],
     ignore_circle: "Circle | None" = None,
 ) -> bool:
@@ -100,7 +101,7 @@ def overlaps_circle(
 
 
 def find_safe_position(
-    radius: int,
+    radius: float,
     circles: list["Circle"],
     ignore_circle: "Circle | None" = None,
 ) -> Position | None:
@@ -112,16 +113,18 @@ def find_safe_position(
     3. Return None if no valid point exists right now.
     """
 
+    r_int = int(radius)
+    
     for _ in range(60):
-        x = random.randint(radius, WIDTH - radius)
-        y = random.randint(radius, HEIGHT - radius)
+        x = random.randint(r_int, WIDTH - r_int)
+        y = random.randint(r_int, HEIGHT - r_int)
 
         if not overlaps_circle(x, y, radius, circles, ignore_circle):
             return x, y
 
     # Slow fallback: brute-force scan ensures we do not miss rare free positions.
-    for y in range(radius, HEIGHT - radius + 1):
-        for x in range(radius, WIDTH - radius + 1):
+    for y in range(r_int, HEIGHT - r_int + 1):
+        for x in range(r_int, WIDTH - r_int + 1):
             if not overlaps_circle(x, y, radius, circles, ignore_circle):
                 return x, y
 
@@ -155,7 +158,7 @@ class Effect:
         x: float,
         y: float,
         color: Color,
-        radius: int,
+        radius: float,
     ) -> None:
         # Store what to draw and where to draw it.
         self.kind = kind
@@ -259,11 +262,13 @@ class Circle:
         )
         # Radius determines behavior profile (speed cap and chase range).
         self.base_radius = random.choice(CIRCLE_SIZES)
-        self.radius = self.base_radius
+        self.radius = float(self.base_radius)
+        self.target_radius = float(self.base_radius)
+        self.growth_rate = 0.0
 
         # Initial position and velocity are random to distribute circles across the world.
-        self.x = random.randint(self.radius, WIDTH - self.radius)
-        self.y = random.randint(self.radius, HEIGHT - self.radius)
+        self.x = random.randint(self.base_radius, WIDTH - self.base_radius)
+        self.y = random.randint(self.base_radius, HEIGHT - self.base_radius)
         self.vx = random.choice([-1, 1]) * random.randint(15, 40)
         self.vy = random.choice([-1, 1]) * random.randint(15, 40)
 
@@ -283,12 +288,14 @@ class Circle:
         """
 
         # Restore original base size, then look for a position that does not overlap.
-        position = find_safe_position(self.base_radius, circles, self)
+        position = find_safe_position(float(self.base_radius), circles, self)
 
         if position is None:
             return False
 
-        self.radius = self.base_radius
+        self.radius = float(self.base_radius)
+        self.target_radius = float(self.base_radius)
+        self.growth_rate = 0.0
         self.x, self.y = position
 
         # New life starts with a fresh random velocity.
@@ -403,7 +410,7 @@ def handle_lifecycle_and_respawn(
     old_x = current.x
     old_y = current.y
     old_color = current.color
-    old_radius = current.radius if current.radius > 0 else current.base_radius
+    old_radius = current.radius if current.radius > 0 else float(current.base_radius)
 
     # Try to respawn this same object in a non-overlapping position.
     # It can fail if there is no free space right now.
@@ -470,7 +477,7 @@ def apply_interactions(
 
     # How far this circle is allowed to search for prey.
     # Small circles have 0 chase radius. Scale it up for custom grown sizes.
-    chase_radius = CHASE_RADIUS_BY_SIZE.get(current.radius, current.radius * 14.0)
+    chase_radius = CHASE_RADIUS_BY_SIZE.get(current.base_radius, current.radius * 14.0)
 
     # Keep track of the best chase target found so far.
     target: Circle | None = None
@@ -505,19 +512,25 @@ def apply_interactions(
                 other.age = other.lifespan
                 
                 # Grow proportionally to the eaten circle's area
-                new_area = (current.radius ** 2) + (other.radius ** 2)
-                current.radius = min(MAX_CIRCLE_RADIUS, int(math.sqrt(new_area)))
+                new_area = (current.target_radius ** 2) + (other.target_radius ** 2)
+                current.target_radius = min(float(MAX_CIRCLE_RADIUS), math.sqrt(new_area))
+                current.growth_rate = (current.target_radius - current.radius) / GROWTH_SPEED
                 
                 # Hide prey so it can't be eaten again while waiting to respawn
-                other.radius = 0
+                other.radius = 0.0
+                other.target_radius = 0.0
+                other.growth_rate = 0.0
                 other.history.clear()
             elif current.radius < other.radius:
                 current.age = current.lifespan
                 
-                new_area = (other.radius ** 2) + (current.radius ** 2)
-                other.radius = min(MAX_CIRCLE_RADIUS, int(math.sqrt(new_area)))
+                new_area = (other.target_radius ** 2) + (current.target_radius ** 2)
+                other.target_radius = min(float(MAX_CIRCLE_RADIUS), math.sqrt(new_area))
+                other.growth_rate = (other.target_radius - other.radius) / GROWTH_SPEED
                 
-                current.radius = 0
+                current.radius = 0.0
+                current.target_radius = 0.0
+                current.growth_rate = 0.0
                 current.history.clear()
                 continue
             else:
@@ -586,8 +599,8 @@ def clamp_circle_speed(current: Circle) -> None:
 
     # Different sizes use different max speeds.
     # This makes larger circles feel heavier/slower.
-    if current.radius in MAX_SPEED_BY_SIZE:
-        max_speed = MAX_SPEED_BY_SIZE[current.radius]
+    if current.base_radius in MAX_SPEED_BY_SIZE:
+        max_speed = MAX_SPEED_BY_SIZE[current.base_radius]
     else:
         # Calculate slower speeds for circles that have grown.
         max_speed = max(50.0, 150.0 - (current.radius - 25) * 2.0)
@@ -628,27 +641,39 @@ def apply_screen_wrap(current: Circle) -> None:
         current.history.clear()
 
 
+def apply_growth(current: Circle, sim_dt: float) -> None:
+    """Gradually increase radius to target_radius over time."""
+    if current.radius < current.target_radius:
+        current.radius += current.growth_rate * sim_dt
+        if current.radius > current.target_radius:
+            current.radius = current.target_radius
+            current.growth_rate = 0.0
+
+
 def update_circle(current: Circle, circles: list[Circle], effects: list[Effect], sim_dt: float) -> None:
     """Run one circle's full simulation update for the current frame."""
 
     # Step 1: Advance lifetime and possibly respawn expired circles.
     handle_lifecycle_and_respawn(current, circles, effects, sim_dt)
+    
+    # Step 2: Smoothly grow the circle if it recently ate prey.
+    apply_growth(current, sim_dt)
 
-    # Step 2: Move by velocity.
+    # Step 3: Move by velocity.
     # Position update is done with sim_dt, so speed scales with time.
     current.x += current.vx * sim_dt
     current.y += current.vy * sim_dt
 
-    # Step 3: Apply steering and interactions.
+    # Step 4: Apply steering and interactions.
     apply_jitter(current, sim_dt)
     target = apply_interactions(current, circles, sim_dt)
     apply_chase_force(current, target, sim_dt)
 
-    # Step 4: Enforce safety constraints.
+    # Step 5: Enforce safety constraints.
     clamp_circle_speed(current)
     apply_screen_wrap(current)
     
-    # Step 5: Save the true final position to history for the trails effect.
+    # Step 6: Save the true final position to history for the trails effect.
     if current.radius > 0:
         current.history.append((int(current.x), int(current.y)))
         if len(current.history) > TRAILS_LENGTH:
@@ -688,7 +713,7 @@ def draw_frame(
                 pygame.draw.lines(screen, circle.color, False, circle.history, 2)
             
             # Draw circle
-            pygame.draw.circle(screen, circle.color, (int(circle.x), int(circle.y)), circle.radius)
+            pygame.draw.circle(screen, circle.color, (int(circle.x), int(circle.y)), int(circle.radius))
 
     # Step 3: Draw optional visual effects above circles.
     if ENABLE_SPECIAL_EFFECTS:
