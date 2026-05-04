@@ -54,6 +54,9 @@ JITTER_CHANCE_BASE_60FPS = 0.05
 JITTER_MIN_ANGLE = -0.1
 JITTER_MAX_ANGLE = 0.1
 
+# Length of the movement trail left by circles.
+TRAILS_LENGTH = 30
+
 # If respawn fails because there is no space, wait briefly before retrying.
 RESPAWN_RETRY_DELAY_SECONDS = 0.25
 
@@ -264,6 +267,9 @@ class Circle:
         self.vx = random.choice([-1, 1]) * random.randint(15, 40)
         self.vy = random.choice([-1, 1]) * random.randint(15, 40)
 
+        # Store past positions to draw a trail behind the circle.
+        self.history: list[Position] = []
+
         # Lifecycle: each circle "lives" for a random duration before respawning.
         self.age = 0.0
         self.lifespan = random.uniform(3.0, 7.0)
@@ -288,6 +294,9 @@ class Circle:
         # New life starts with a fresh random velocity.
         self.vx = random.choice([-1, 1]) * random.randint(15, 40)
         self.vy = random.choice([-1, 1]) * random.randint(15, 40)
+        
+        # Clear the trail from the old life.
+        self.history.clear()
 
         # Reset lifecycle timer for the next life.
         self.age = 0.0
@@ -501,6 +510,7 @@ def apply_interactions(
                 
                 # Hide prey so it can't be eaten again while waiting to respawn
                 other.radius = 0
+                other.history.clear()
             elif current.radius < other.radius:
                 current.age = current.lifespan
                 
@@ -508,6 +518,7 @@ def apply_interactions(
                 other.radius = min(MAX_CIRCLE_RADIUS, int(math.sqrt(new_area)))
                 
                 current.radius = 0
+                current.history.clear()
                 continue
             else:
                 overlap_amount = min_dist - dist
@@ -595,16 +606,26 @@ def clamp_circle_speed(current: Circle) -> None:
 def apply_screen_wrap(current: Circle) -> None:
     """Wrap circle positions around the screen edges."""
 
+    wrapped = False
+    
     # If a circle crosses the boundary, move it to the opposite side.
     if current.x < -current.radius:
         current.x = WIDTH + current.radius
+        wrapped = True
     elif current.x > WIDTH + current.radius:
         current.x = -current.radius
+        wrapped = True
 
     if current.y < -current.radius:
         current.y = HEIGHT + current.radius
+        wrapped = True
     elif current.y > HEIGHT + current.radius:
         current.y = -current.radius
+        wrapped = True
+        
+    if wrapped:
+        # Clear history so we don't draw a line across the entire screen
+        current.history.clear()
 
 
 def update_circle(current: Circle, circles: list[Circle], effects: list[Effect], sim_dt: float) -> None:
@@ -626,6 +647,12 @@ def update_circle(current: Circle, circles: list[Circle], effects: list[Effect],
     # Step 4: Enforce safety constraints.
     clamp_circle_speed(current)
     apply_screen_wrap(current)
+    
+    # Step 5: Save the true final position to history for the trails effect.
+    if current.radius > 0:
+        current.history.append((int(current.x), int(current.y)))
+        if len(current.history) > TRAILS_LENGTH:
+            current.history.pop(0)
 
 
 def update_effects(effects: list[Effect], sim_dt: float) -> None:
@@ -653,9 +680,15 @@ def draw_frame(
     # Step 1: Clear previous frame to black.
     screen.fill((0, 0, 0))
 
-    # Step 2: Draw all circles (world layer).
+    # Step 2: Draw all circles and trails (world layer).
     for circle in circles:
-        pygame.draw.circle(screen, circle.color, (int(circle.x), int(circle.y)), circle.radius)
+        if circle.radius > 0:
+            # Draw trail cleanly using pygame.draw.lines
+            if len(circle.history) > 1:
+                pygame.draw.lines(screen, circle.color, False, circle.history, 2)
+            
+            # Draw circle
+            pygame.draw.circle(screen, circle.color, (int(circle.x), int(circle.y)), circle.radius)
 
     # Step 3: Draw optional visual effects above circles.
     if ENABLE_SPECIAL_EFFECTS:
