@@ -10,7 +10,7 @@ HEIGHT = 600
 # FPS is the visual refresh target. The simulation still uses dt so movement is frame-rate independent.
 FPS = 60
 # Number of circles that exist at all times.
-NUM_CIRCLES = 30
+NUM_CIRCLES = 45
 
 # Runtime speed controls used by keyboard input.
 # 1.0 means real-time, 2.0 means double speed, 0.5 means half speed.
@@ -27,16 +27,16 @@ ENABLE_PARTICLES = True
 
 # Circle behavior scales with size.
 # Small circles are faster and usually flee; large circles are slower and can chase from farther away.
-CIRCLE_SIZES: tuple[int, int, int] = (8, 16, 32)
+CIRCLE_SIZES: tuple[int, int, int] = (4, 10, 25)
 CHASE_RADIUS_BY_SIZE: dict[int, float] = {
-    8: 0.0,
-    16: 250.0,
-    32: 350.0,
+    4: 0.0,
+    10: 200.0,
+    25: 350.0,
 }
 MAX_SPEED_BY_SIZE: dict[int, float] = {
-    8: 250.0,
-    16: 200.0,
-    32: 150.0,
+    4: 250.0,
+    10: 200.0,
+    25: 150.0,
 }
 
 # Physics tuning constants.
