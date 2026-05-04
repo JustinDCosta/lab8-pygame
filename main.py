@@ -439,6 +439,16 @@ def apply_jitter(current: Circle, sim_dt: float) -> None:
     current.vy = new_vy
 
 
+def check_collision(circle1: "Circle", circle2: "Circle") -> bool:
+    """Return True if the distance between two circles is less than their combined radii."""
+    
+    dx = circle1.x - circle2.x
+    dy = circle1.y - circle2.y
+    dist = math.sqrt(dx**2 + dy**2)
+    
+    return dist < (circle1.radius + circle2.radius)
+
+
 def apply_interactions(
     current: Circle,
     circles: list[Circle],
@@ -474,7 +484,7 @@ def apply_interactions(
             dy = math.sin(angle)
             dist = 1.0
 
-        if dist < min_dist:
+        if check_collision(current, other):
             overlap_amount = min_dist - dist
             # Push this circle away to separate overlaps gradually.
             # Using a fraction avoids sudden jumps.
