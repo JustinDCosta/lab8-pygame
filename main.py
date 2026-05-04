@@ -485,11 +485,16 @@ def apply_interactions(
             dist = 1.0
 
         if check_collision(current, other):
-            overlap_amount = min_dist - dist
-            # Push this circle away to separate overlaps gradually.
-            # Using a fraction avoids sudden jumps.
-            current.x += (dx / dist) * (overlap_amount * OVERLAP_PUSH_FACTOR)
-            current.y += (dy / dist) * (overlap_amount * OVERLAP_PUSH_FACTOR)
+            if current.radius > other.radius:
+                other.age = other.lifespan
+            elif current.radius < other.radius:
+                current.age = current.lifespan
+            else:
+                overlap_amount = min_dist - dist
+                # Push this circle away to separate overlaps gradually.
+                # Using a fraction avoids sudden jumps.
+                current.x += (dx / dist) * (overlap_amount * OVERLAP_PUSH_FACTOR)
+                current.y += (dy / dist) * (overlap_amount * OVERLAP_PUSH_FACTOR)
 
         # Flee rule:
         # If current is smaller and close enough, accelerate away from larger circle.
