@@ -53,13 +53,27 @@ class Boid:
 
     # TODO: Implement speed clamping to ensure boids don't exceed max speed
     def _clampSpeed(self) -> None:
-        pass
+        current_speed: float = math.sqrt(self.vx**2 + self.vy**2)
+        if current_speed > config.BOID_SPEED_MAX:
+            self.vx = (self.vx / current_speed) * config.BOID_SPEED_MAX
+            self.vy = (self.vy / current_speed) * config.BOID_SPEED_MAX
+        elif current_speed < config.BOID_SPEED_MIN and current_speed > 0:
+            self.vx = (self.vx / current_speed) * config.BOID_SPEED_MIN
+            self.vy = (self.vy / current_speed) * config.BOID_SPEED_MIN
 
     # TODO: Implement Screen Wrapping
     # Screen wrapping: if a boid goes off one edge of the screen, 
     # it should reappear on the opposite edge
     def _screen_wrap(self) -> None:
-        pass
+        if self.x < -config.BOID_SIZE:
+            self.x = config.WIDTH + config.BOID_SIZE
+        elif self.x > config.WIDTH + config.BOID_SIZE:
+            self.x = -config.BOID_SIZE
+
+        if self.y < -config.BOID_SIZE:
+            self.y = config.HEIGHT + config.BOID_SIZE
+        elif self.y > config.HEIGHT + config.BOID_SIZE:
+            self.y = -config.BOID_SIZE
     
     # Default wall behavior is bounce: if a boid hits the edge of the screen, 
     # it should bounce back in the opposite direction
