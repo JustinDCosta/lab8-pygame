@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Architecture Overview</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f5f1e8;
+      --panel: #fffdf7;
+      --text: #1f2937;
+      --muted: #5b6472;
+      --accent: #0f766e;
+      --accent-2: #b45309;
+      --border: rgba(31, 41, 55, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      background:
+        radial-gradient(circle at top right, rgba(180, 83, 9, 0.12), transparent 28%),
+        radial-gradient(circle at bottom left, rgba(15, 118, 110, 0.10), transparent 30%),
+        var(--bg);
+      color: var(--text);
+      line-height: 1.55;
+    }
+
+    main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 32px 20px 56px;
+    }
+
+    header {
+      margin-bottom: 28px;
+      padding: 28px;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      background: linear-gradient(135deg, rgba(255,255,255,0.92), rgba(255,253,247,0.86));
+      box-shadow: 0 18px 40px rgba(31, 41, 55, 0.08);
+    }
+
+    h1, h2 {
+      margin: 0 0 12px;
+      line-height: 1.15;
+    }
+
+    h1 {
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      color: var(--accent);
+    }
+
+    h2 {
+      margin-top: 28px;
+      font-size: 1.4rem;
+      color: var(--accent-2);
+    }
+
+    p, li {
+      color: var(--text);
+      max-width: 78ch;
+    }
+
+    .note {
+      color: var(--muted);
+    }
+
+    .panel {
+      margin-top: 18px;
+      padding: 20px;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.82);
+      overflow: auto;
+    }
+
+    .mermaid {
+      background: transparent;
+    }
+
+    a {
+      color: var(--accent);
+    }
+
+    code {
+      font-family: Consolas, "Liberation Mono", monospace;
+    }
+
+    @media (max-width: 720px) {
+      main {
+        padding: 20px 14px 40px;
+      }
+
+      header, .panel {
+        border-radius: 16px;
+      }
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script>
+    mermaid.initialize({ startOnLoad: true, theme: "default" });
+  </script>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>Architecture Overview</h1>
+      <p>This project is a single-module Pygame simulation. The runtime behavior lives in <a href="../main.py">main.py</a>, while the rest of the repository is documentation and notes.</p>
+      <p class="note">The sections below mirror the Markdown architecture document and use the same Mermaid diagrams.</p>
+    </header>
+
+    <section>
+      <h2>Module Dependency Graph</h2>
+      <div class="panel mermaid">
+flowchart LR
+    Main["main.py"] --> Pygame["pygame"]
+    Main --> Random["random"]
+    Main --> Math["math"]
+    Main --> TypedDict["typing.TypedDict"]
+      </div>
+      <p>main.py is the only runtime module. It imports Pygame for rendering and input, and standard-library utilities for randomness, geometry, and typed data.</p>
+    </section>
+
+    <section>
+      <h2>Runtime Flow</h2>
+      <div class="panel mermaid">
+flowchart TD
+    Start["Program start"] --> Init["initialize_runtime()"]
+    Init --> Loop["main() frame loop"]
+    Loop --> Events["handle_events()"]
+    Events --> QuitCheck{"Running?"}
+    QuitCheck -->|No| Shutdown["pygame.quit()"]
+    QuitCheck -->|Yes| Timing["clock.tick(FPS) and compute dt"]
+    Timing --> SimTime{"Paused?"}
+    SimTime -->|Yes| SimDtZero["sim_dt = 0.0"]
+    SimTime -->|No| SimDtScaled["sim_dt = dt * sim_speed"]
+    SimDtZero --> Update["Update circles and effects"]
+    SimDtScaled --> Update
+    Update --> Draw["draw_frame()"]
+    Draw --> Loop
+      </div>
+      <p>The loop is intentionally simple: process input, advance simulation time, update entities, render the frame, and repeat until the user quits.</p>
+    </section>
+
+    <section>
+      <h2>Function-Level Call Graph</h2>
+      <div class="panel mermaid">
+flowchart TD
+    Main["main()"] --> InitRuntime["initialize_runtime()"]
+    Main --> HandleEvents["handle_events()"]
+    Main --> UpdateCircle["update_circle()"]
+    Main --> UpdateEffects["update_effects()"]
+    Main --> DrawFrame["draw_frame()"]
+
+    InitRuntime --> CreateInitial["create_initial_circles()"]
+    CreateInitial --> CircleInit["Circle.__init__()"]
+
+    UpdateCircle --> HandleLife["handle_lifecycle_and_respawn()"]
+    HandleLife --> Respawn["Circle.respawn()"]
+    Respawn --> SafePosition["find_safe_position()"]
+    SafePosition --> Overlaps["overlaps_circle()"]
+    HandleLife --> EffectCreate["Effect.__init__()"]
+
+    UpdateCircle --> ApplyJitter["apply_jitter()"]
+    UpdateCircle --> ApplyInteractions["apply_interactions()"]
+    UpdateCircle --> ApplyChase["apply_chase_force()"]
+    UpdateCircle --> ClampSpeed["clamp_circle_speed()"]
+    UpdateCircle --> WallForces["apply_wall_forces_and_bounce()"]
+
+    UpdateEffects --> EffectUpdate["Effect.update()"]
+    UpdateEffects --> EffectDone["Effect.is_finished()"]
+
+    DrawFrame --> HelpText["draw_help_text()"]
+    DrawFrame --> EffectDraw["Effect.draw()"]
+      </div>
+      <p>The important internal path is the circle update path: life-cycle handling, steering, interaction resolution, speed clamping, and wall handling all happen once per circle every frame.</p>
+    </section>
+
+    <section>
+      <h2>Primary Execution Sequence</h2>
+      <div class="panel mermaid">
+sequenceDiagram
+    participant User as "User"
+    participant Pygame as "Pygame"
+    participant Main as "main() loop"
+    participant Circle as "Circle"
+    participant Effects as "Effects list"
+    participant Screen as "Screen"
+
+    User->>Pygame: "Press keys or close window"
+    Pygame-->>Main: "Event queue"
+    loop "Each frame"
+        Main->>Main: "clock.tick(FPS) and compute dt"
+        Main->>Main: "handle_events(sim_speed, paused)"
+        alt "QUIT event received"
+            Main->>Main: "running = False"
+        else "Key pressed"
+            Main->>Main: "Adjust speed or pause state"
+        end
+        Main->>Main: "Compute sim_dt from dt and paused state"
+        loop "For each circle"
+            Main->>Circle: "update_circle(current, circles, effects, sim_dt)"
+            Circle->>Circle: "handle_lifecycle_and_respawn()"
+            alt "Circle expired and respawn succeeds"
+                Circle->>Circle: "respawn()"
+                Circle->>Circle: "find_safe_position()"
+                Circle->>Circle: "overlaps_circle()"
+                Circle->>Effects: "Append death/rebirth effects"
+            else "Circle still alive or respawn delayed"
+                Circle->>Circle: "Keep current state"
+            end
+            Circle->>Circle: "apply_jitter()"
+            Circle->>Circle: "apply_interactions()"
+            Circle->>Circle: "apply_chase_force()"
+            Circle->>Circle: "clamp_circle_speed()"
+            Circle->>Circle: "apply_wall_forces_and_bounce()"
+        end
+        Main->>Effects: "update_effects()"
+        Main->>Screen: "draw_frame()"
+        Screen-->>User: "Rendered frame"
+    end
+    Main->>Pygame: "pygame.quit()"
+      </div>
+      <p>The primary path covers the real frame loop, including the respawn branch, optional effect creation, and the render step that presents the final frame.</p>
+    </section>
+
+    <section>
+      <h2>Notes</h2>
+      <ul>
+        <li>Circle owns persistent state for radius, color, position, velocity, and lifespan.</li>
+        <li>Effect is a temporary helper for death and rebirth visuals.</li>
+        <li>The simulation is frame-rate independent because all motion uses delta time.</li>
+        <li>The codebase has no internal package split yet, so the architecture is centered on one file.</li>
+      </ul>
+    </section>
+  </main>
+</body>
+</html>

@@ -1166,3 +1166,14 @@ I have made a few changes on the code to make the app more perfect. I would like
 - **Hook Version**: 1.02
 - **Date**: 27-04-2026 14:41
 - **Prompt**: analyze this project and produce a light refactoring plan
+
+### **New Interaction**
+- **Agent Version**: 2.3
+- **Date**: 27-04-2026 14:41
+- **User**: justin.d-costa@epita.fr
+- **Prompt**: analyze this project and produce a light refactoring plan
+- **CoPilot Mode**: Edit
+- **CoPilot Model**: GPT-5.4 mini
+- **Socratic Mode**: ON
+- **Changes Made**: Analyzed main.py and created refactoring.plan.md with a beginner-friendly light refactoring plan, including goals, step-by-step actions, final output constraints, key concepts, and safety notes.
+- **Context and Reasons for Changes**: User requested a light refactoring plan for the project, so I produced a structured, low-risk plan focused on readability and maintainability while preserving behavior.

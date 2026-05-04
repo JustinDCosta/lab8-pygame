@@ -1,0 +1,1288 @@
+﻿<!DOCTYPE html>
+<!-- STUDY_TOOL_TEMPLATE_VERSION: 2.0 -->
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Project Mastery Study Tool</title>
+  <style>
+    :root {
+      --bg: #f3efe7;
+      --surface: rgba(255, 253, 248, 0.88);
+      --surface-strong: #fffdf8;
+      --text: #1d2633;
+      --accent: #0f766e;
+      --accent-2: #b45309;
+      --muted: #5a6472;
+      --radius: 22px;
+      --shadow: 0 24px 60px rgba(30, 41, 59, 0.12);
+      --border: rgba(29, 38, 51, 0.12);
+      --good: #167c52;
+      --bad: #b42318;
+      --chip: rgba(15, 118, 110, 0.12);
+      --focus: rgba(15, 118, 110, 0.26);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+    .button,
+    .choice-button,
+    .nav-button {
+      appearance: none;
+      border: 0;
+      font: inherit;
+      cursor: pointer;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease, color 0.18s ease;
+    }
+
+    .button {
+      padding: 12px 16px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--accent), #0e5f59);
+      color: white;
+      font-weight: 700;
+      box-shadow: 0 12px 24px rgba(15, 118, 110, 0.24);
+    }
+
+    .button.secondary {
+      background: rgba(180, 83, 9, 0.12);
+      color: #8a4c12;
+      box-shadow: none;
+      border: 1px solid rgba(180, 83, 9, 0.18);
+    }
+
+    .button:hover,
+    .choice-button:hover,
+    .nav-button:hover {
+      transform: translateY(-1px);
+    }
+
+    .button:focus-visible,
+    .choice-button:focus-visible,
+    .nav-button:focus-visible,
+    .flashcard:focus-visible {
+      outline: 3px solid var(--focus);
+      outline-offset: 3px;
+    }
+
+    .button.active {
+      background: linear-gradient(135deg, #0a4e49, #0f766e);
+    }
+
+    .mode-copy {
+      color: var(--muted);
+      max-width: 58ch;
+      margin: 0;
+    }
+
+    #flashcard-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .flashcard {
+      position: relative;
+      min-height: 230px;
+      perspective: 1400px;
+      cursor: pointer;
+      outline: none;
+    }
+
+    .flashcard-inner {
+      position: absolute;
+      inset: 0;
+      transform-style: preserve-3d;
+      transition: transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+    }
+
+    .flashcard.is-flipped .flashcard-inner {
+      transform: rotateY(180deg);
+    }
+
+    .flashcard-front,
+    .flashcard-back {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding: 18px;
+      border-radius: 18px;
+      backface-visibility: hidden;
+      overflow: hidden;
+      border: 1px solid rgba(29, 38, 51, 0.08);
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.76)),
+        radial-gradient(circle at top right, rgba(15, 118, 110, 0.08), transparent 34%);
+      box-shadow: 0 16px 32px rgba(31, 41, 55, 0.07);
+    }
+
+    .flashcard-back {
+      transform: rotateY(180deg);
+      background:
+        linear-gradient(180deg, rgba(13, 93, 87, 0.96), rgba(16, 75, 71, 0.96)),
+        radial-gradient(circle at top right, rgba(255, 255, 255, 0.16), transparent 34%);
+      color: #f8fbfa;
+    }
+
+    .flashcard-front p,
+    .flashcard-back p {
+      margin: 0;
+      overflow-wrap: anywhere;
+    }
+
+    .flashcard-back p {
+      color: rgba(248, 251, 250, 0.88);
+    }
+
+    .flashcard-meta,
+    .question-meta,
+    .result-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .pill {
+      display: inline-flex;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      background: rgba(15, 118, 110, 0.09);
+      color: var(--accent);
+    }
+
+    .pill.secondary {
+      background: rgba(180, 83, 9, 0.12);
+      color: #8a4c12;
+    }
+
+    .card-hint {
+      margin-top: auto;
+      font-size: 0.85rem;
+      color: inherit;
+      opacity: 0.85;
+    }
+
+    #quiz-content {
+      display: grid;
+      gap: 16px;
+    }
+
+    .question-card {
+      display: none;
+      padding: 20px;
+    }
+
+    .question-card.is-active {
+      display: block;
+      animation: fadeIn 0.35s ease both;
+    }
+
+    .question-card h3 {
+      margin: 10px 0 12px;
+      font-size: 1.18rem;
+      letter-spacing: -0.02em;
+    }
+
+    .question-stem {
+      margin: 0;
+      max-width: 78ch;
+      color: var(--text);
+    }
+
+    .question-options {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .choice-button {
+      padding: 14px 14px;
+      border-radius: 16px;
+      border: 1px solid rgba(29, 38, 51, 0.12);
+      background: rgba(255, 255, 255, 0.88);
+      text-align: left;
+      min-height: 64px;
+      color: var(--text);
+      box-shadow: 0 10px 20px rgba(31, 41, 55, 0.04);
+    }
+
+    .choice-button.selected {
+      border-color: rgba(15, 118, 110, 0.44);
+      background: rgba(15, 118, 110, 0.11);
+      color: #0b5f58;
+    }
+
+    .choice-button.correct {
+      border-color: rgba(22, 124, 82, 0.42);
+      background: rgba(22, 124, 82, 0.12);
+      color: var(--good);
+    }
+
+    .choice-button.incorrect {
+      border-color: rgba(180, 35, 24, 0.34);
+      background: rgba(180, 35, 24, 0.09);
+      color: var(--bad);
+    }
+
+    .quiz-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 18px;
+      padding-top: 18px;
+      border-top: 1px solid rgba(29, 38, 51, 0.1);
+    }
+
+    .nav-left,
+    .nav-right,
+    .nav-center {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .nav-button {
+      padding: 11px 14px;
+      border-radius: 14px;
+      border: 1px solid rgba(29, 38, 51, 0.12);
+      background: rgba(255, 255, 255, 0.9);
+      color: var(--text);
+      font-weight: 700;
+    }
+
+    .nav-button.primary {
+      background: linear-gradient(135deg, var(--accent), #0b645d);
+      color: white;
+      border-color: transparent;
+      box-shadow: 0 12px 24px rgba(15, 118, 110, 0.24);
+    }
+
+    .nav-button:disabled {
+      cursor: not-allowed;
+      opacity: 0.5;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .progress-label {
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    #quiz-results,
+    #overall-results {
+      margin-top: 18px;
+    }
+
+    .result-summary {
+      padding: 18px;
+      margin-bottom: 14px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .score-line {
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      flex-wrap: wrap;
+      align-items: baseline;
+    }
+
+    .score-line strong {
+      font-size: 1.8rem;
+      letter-spacing: -0.03em;
+    }
+
+    .result-list {
+      display: grid;
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .result-card {
+      padding: 16px;
+    }
+
+    .result-card.correct {
+      border-left: 5px solid var(--good);
+    }
+
+    .result-card.incorrect {
+      border-left: 5px solid var(--bad);
+    }
+
+    .result-card h4 {
+      font-size: 1rem;
+    }
+
+    .result-card p {
+      margin: 8px 0 0;
+      overflow-wrap: anywhere;
+    }
+
+    .subtle-note {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin: 0;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .submitted .choice-button {
+      cursor: default;
+    }
+
+    .submitted .question-card {
+      opacity: 0.98;
+    }
+
+    @keyframes rise {
+      from {
+        opacity: 0;
+        transform: translateY(14px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(6px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 980px) {
+      .hero-grid,
+      .study-summary-grid,
+      #flashcard-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .question-options {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 720px) {
+      #app {
+        width: min(100% - 20px, 1180px);
+        padding-top: 16px;
+      }
+
+      .hero,
+      .section {
+        padding: 18px;
+        border-radius: 18px;
+      }
+
+      .hero p,
+      .section-head p,
+      .mode-copy {
+        font-size: 0.98rem;
+      }
+
+      .quiz-nav {
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="ambient-glow"></div>
+  <div class="ambient-glow alt"></div>
+
+  <main id="app">
+    <header class="hero">
+      <div class="hero-grid">
+        <div>
+          <p class="eyebrow">Project Mastery Study Tool</p>
+          <h1>Learn the runtime flow of the Pygame simulation.</h1>
+          <p>
+            This study tool is grounded in <strong>main.py</strong> and focuses on the real control flow:
+            event handling, delta-time updates, lifecycle respawning, interaction rules, wall behavior,
+            and the visual effect system.
+          </p>
+        </div>
+
+        <aside class="hero-panel" aria-label="Study metadata">
+          <div class="hero-stat"><span>Template</span><span>v2.0</span></div>
+          <div class="hero-stat"><span>Difficulty</span><span>Medium</span></div>
+          <div class="hero-stat"><span>Quiz count</span><span>15</span></div>
+          <div class="hero-stat"><span>Mode</span><span>Offline-friendly</span></div>
+        </aside>
+      </div>
+    </header>
+
+    <section id="study-summary" class="section">
+      <div class="section-head">
+        <div>
+          <h2>Study Summary</h2>
+          <p>These are the strongest technical themes visible in the code.</p>
+        </div>
+        <div class="meta-row">
+          <span class="chip">Frame-rate independent motion</span>
+          <span class="chip secondary">Lifecycle and respawn</span>
+        </div>
+      </div>
+
+      <div class="study-summary-grid">
+        <article class="summary-card">
+          <h3>Simulation loop</h3>
+          <p>
+            <strong>main()</strong> orchestrates a classic loop: handle events, compute <em>dt</em>, update circles,
+            update effects, then draw the frame.
+          </p>
+          <ul>
+            <li>The app uses <strong>clock.tick(FPS)</strong> for elapsed time.</li>
+            <li>Paused time sets <strong>sim_dt</strong> to zero.</li>
+            <li>Speed controls scale simulation time without changing frame timing.</li>
+          </ul>
+        </article>
+
+        <article class="summary-card">
+          <h3>Behavior and stability</h3>
+          <p>
+            Circle behavior is shaped by size-based speed caps, flee/chase rules, overlap correction,
+            soft wall repulsion, and hard boundary bounce logic.
+          </p>
+          <ul>
+            <li><strong>apply_interactions()</strong> chooses a chase target.</li>
+            <li><strong>find_safe_position()</strong> prevents overlapping respawns.</li>
+            <li><strong>Effect</strong> handles death and rebirth visuals.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section id="mode-switcher" class="section">
+      <div>
+        <h2>Mode Switcher</h2>
+        <p class="mode-copy">
+          Use flashcards to review the code structure, or move into the quiz to test tracing, debugging,
+          edge cases, design tradeoffs, and Big-O reasoning based on the actual implementation.
+        </p>
+      </div>
+      <div class="mode-buttons" aria-label="Mode controls">
+        <button class="button active" type="button" data-target="flashcards">Flashcards</button>
+        <button class="button secondary" type="button" data-target="quiz">Quiz</button>
+      </div>
+    </section>
+
+    <section id="flashcards" class="section">
+      <div class="section-head">
+        <div>
+          <h2>Flashcards</h2>
+          <p>Click a card or press Enter/Space to flip it. Every card anchors to a concrete region in <strong>main.py</strong>.</p>
+        </div>
+        <div class="meta-row">
+          <span class="chip">15 cards</span>
+          <span class="chip secondary">Click-to-flip</span>
+        </div>
+      </div>
+      <div id="flashcard-grid"></div>
+    </section>
+
+    <section id="quiz" class="section">
+      <div class="section-head">
+        <div>
+          <h2>Quiz</h2>
+          <p>Answer the 15 contextual questions. Each question is tied to a real function, constant, or branch in the code.</p>
+        </div>
+        <div class="meta-row">
+          <span class="chip">1 point each</span>
+          <span class="chip secondary">Medium difficulty</span>
+        </div>
+      </div>
+      <div id="quiz-content"></div>
+      <div class="quiz-nav"></div>
+      <div id="quiz-results"></div>
+    </section>
+
+    <section id="results" class="section">
+      <div class="section-head">
+        <div>
+          <h2>Results</h2>
+          <p>This section gives a compact overall summary after submission. The detailed grading view appears above in the quiz results panel.</p>
+        </div>
+        <div class="meta-row">
+          <span class="chip">Review summary</span>
+          <span class="chip secondary">Auto-updated</span>
+        </div>
+      </div>
+      <div id="overall-results">
+        <div class="result-summary">
+          <div class="score-line">
+            <strong>Ready to study</strong>
+            <span class="pill">0 / 15 so far</span>
+          </div>
+          <p class="subtle-note">Submit the quiz to see your score, the correct answers, and short explanations tied to each code anchor.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const STUDY_TOOL_TEMPLATE_VERSION = "2.0";
+    const difficultyLabel = "Medium";
+    const questionCount = 15;
+
+    const flashcards = [
+      {
+        file: "main.py",
+        anchor: "handle_events()",
+        frontTitle: "What does the input handler return?",
+        frontText: "Trace the tuple that comes back from the event loop after key presses are processed.",
+        backTitle: "It returns the updated runtime state.",
+        backText: "handle_events(sim_speed, paused) returns running, sim_speed, and paused. That keeps the main loop simple because input handling stays separate from update logic."
+      },
+      {
+        file: "main.py",
+        anchor: "clock.tick(FPS) and sim_dt",
+        frontTitle: "Why does the code use dt?",
+        frontText: "Think about why movement still feels stable even if frame timing changes.",
+        backTitle: "dt makes motion frame-rate independent.",
+        backText: "The code converts elapsed real time into sim_dt. When paused, sim_dt becomes 0.0; otherwise it is scaled by sim_speed so the simulation can speed up or slow down without breaking timing."
+      },
+      {
+        file: "main.py",
+        anchor: "handle_lifecycle_and_respawn()",
+        frontTitle: "When does a circle restart?",
+        frontText: "Follow the age and lifespan check before respawning happens.",
+        backTitle: "Expired circles respawn with new state.",
+        backText: "If current.age reaches current.lifespan, the circle tries to respawn. On success, the object keeps existing but gets a new radius, position, velocity, and lifespan."
+      },
+      {
+        file: "main.py",
+        anchor: "find_safe_position()",
+        frontTitle: "How does respawn avoid overlaps?",
+        frontText: "Look at the two-step search strategy used to find a free spawn point.",
+        backTitle: "It tries random points first, then scans the screen.",
+        backText: "The helper first samples random positions for speed. If those fail, it performs a full-screen scan. Returning None lets the caller delay respawn instead of forcing a bad placement."
+      },
+      {
+        file: "main.py",
+        anchor: "overlaps_circle()",
+        frontTitle: "Why is ignore_circle useful?",
+        frontText: "Think about respawn and self-comparison in overlap checks.",
+        backTitle: "It prevents a circle from comparing against itself.",
+        backText: "The ignore_circle parameter skips the circle being respawned. Without that guard, the overlap test could falsely report a collision with the same object."
+      },
+      {
+        file: "main.py",
+        anchor: "apply_interactions()",
+        frontTitle: "How does chase target selection work?",
+        frontText: "Trace how a larger circle chooses one smaller target instead of chasing every option at once.",
+        backTitle: "It keeps the best candidate found so far.",
+        backText: "apply_interactions() loops through every other circle, tracks the nearest valid target, and uses TARGET_TIE_DISTANCE to avoid unstable switching when distances are almost equal."
+      },
+      {
+        file: "main.py",
+        anchor: "TARGET_TIE_DISTANCE",
+        frontTitle: "Why does the code use a tie threshold?",
+        frontText: "Think about equal-distance candidates in chase selection.",
+        backTitle: "It reduces jittery target switching.",
+        backText: "When two prey are almost equally far away, the code prefers the larger one or uses a small random tie-break. That avoids sudden back-and-forth chasing between nearly equal targets."
+      },
+      {
+        file: "main.py",
+        anchor: "apply_jitter()",
+        frontTitle: "What does jitter add to movement?",
+        frontText: "Explain the effect of small random velocity rotation over time.",
+        backTitle: "It adds subtle randomness to trajectories.",
+        backText: "The code rotates velocity by a small random angle based on a frame-time-aware chance. This keeps movement from looking too mechanical while still preserving overall direction."
+      },
+      {
+        file: "main.py",
+        anchor: "apply_chase_force()",
+        frontTitle: "Why normalize the chase vector?",
+        frontText: "Think about what the code needs before it adds chase acceleration.",
+        backTitle: "Normalization keeps the force direction-only.",
+        backText: "The chase vector is divided by its distance so the circle accelerates toward the target consistently. Multiplying by sim_dt keeps the result stable across frame rates."
+      },
+      {
+        file: "main.py",
+        anchor: "clamp_circle_speed()",
+        frontTitle: "What does the speed clamp protect?",
+        frontText: "Look at the size-specific speed cap in the update path.",
+        backTitle: "It prevents circles from exceeding their max speed.",
+        backText: "If the current speed is already valid, the function returns immediately. Otherwise it rescales vx and vy to preserve direction while shrinking the magnitude."
+      },
+      {
+        file: "main.py",
+        anchor: "apply_wall_forces_and_bounce()",
+        frontTitle: "How do walls behave?",
+        frontText: "Compare the soft push zone and the hard boundary response.",
+        backTitle: "The code uses soft repulsion and hard bounce.",
+        backText: "Circles are nudged away from the edges before they touch them, then clamped and reflected if they cross the boundary. That keeps movement lively without letting circles leave the window."
+      },
+      {
+        file: "main.py",
+        anchor: "Effect",
+        frontTitle: "Why is there a separate Effect class?",
+        frontText: "Think about temporary visuals that should fade out on their own.",
+        backTitle: "It isolates short-lived visual effects.",
+        backText: "Effect stores kind, position, radius, age, lifespan, and optional particles. That makes death and rebirth animations easier to update and remove without cluttering circle logic."
+      },
+      {
+        file: "main.py",
+        anchor: "update_circle()",
+        frontTitle: "Why does the update order matter?",
+        frontText: "Trace the sequence: lifecycle, movement, steering, then safety checks.",
+        backTitle: "The order keeps simulation behavior predictable.",
+        backText: "update_circle() first handles expiry, then movement, then interactions, then clamping and walls. That sequence ensures the circle is updated before safety constraints are applied."
+      },
+      {
+        file: "main.py",
+        anchor: "create_initial_circles()",
+        frontTitle: "Where does the starting population come from?",
+        frontText: "Trace the function that builds the initial list before the loop begins.",
+        backTitle: "It creates the first batch of Circle objects.",
+        backText: "The helper starts with an empty list, appends one Circle at a time, and returns the finished population. That keeps setup separate from simulation behavior."
+      },
+      {
+        file: "main.py",
+        anchor: "draw_frame()",
+        frontTitle: "What does the renderer add?",
+        frontText: "Think about the HUD text and final presentation step.",
+        backTitle: "It draws circles, effects, and status overlays.",
+        backText: "draw_frame() clears the screen, draws the circles, shows optional effects, renders FPS and speed labels, and then flips the display. It is the last step of each frame."
+      }
+    ];
+
+    const quizData = [
+      {
+        id: "q-0",
+        category: "Behavior tracing",
+        file: "main.py",
+        anchor: "handle_events()",
+        prompt: "What does handle_events(sim_speed, paused) return after processing input?",
+        options: [
+          "Only a boolean telling the loop whether to keep running",
+          "running, sim_speed, and paused",
+          "The number of active circles and the FPS value",
+          "A list of keyboard events that were pressed"
+        ],
+        answer: 1,
+        explanation: "The function returns the updated running flag plus the possibly changed sim_speed and paused values, which keeps the main loop clean."
+      },
+      {
+        id: "q-1",
+        category: "Behavior tracing",
+        file: "main.py",
+        anchor: "clock.tick(FPS) and sim_dt",
+        prompt: "Why does the code compute sim_dt instead of using raw wall-clock time directly?",
+        options: [
+          "To make motion frame-rate independent and respect pause/speed controls",
+          "To prevent the window from opening in fullscreen",
+          "To make random number generation deterministic",
+          "To force all circles to use the same velocity"
+        ],
+        answer: 0,
+        explanation: "The update path uses dt and sim_dt so movement stays stable even if the frame rate changes, and sim_dt becomes 0.0 while paused."
+      },
+      {
+        id: "q-2",
+        category: "Behavior tracing",
+        file: "main.py",
+        anchor: "handle_lifecycle_and_respawn()",
+        prompt: "What happens when a circle reaches its lifespan and respawn succeeds?",
+        options: [
+          "The circle is deleted from the list and replaced by a new object",
+          "The same circle object gets a new size, position, velocity, and lifespan",
+          "The circle stops moving forever",
+          "The circle keeps its old state and only its color changes"
+        ],
+        answer: 1,
+        explanation: "The object is reused. Respawn mutates the existing circle with new state after a safe position is found."
+      },
+      {
+        id: "q-3",
+        category: "Behavior tracing",
+        file: "main.py",
+        anchor: "apply_interactions()",
+        prompt: "Which part of apply_interactions() is responsible for choosing one chase target?",
+        options: [
+          "The loop that compares every other circle and tracks the best target",
+          "The wall collision branch that reflects velocity",
+          "The code that renders FPS text",
+          "The code that creates the initial circles list"
+        ],
+        answer: 0,
+        explanation: "The function loops over every other circle, keeps the nearest valid target, and applies tie-breaking when distances are almost equal."
+      },
+      {
+        id: "q-4",
+        category: "Debugging",
+        file: "main.py",
+        anchor: "dist == 0 in apply_interactions()",
+        prompt: "Why does the code replace a zero-distance vector with a random angle inside apply_interactions()?",
+        options: [
+          "To make the circle instantly respawn",
+          "To avoid dividing by zero when two circles share the same center",
+          "To increase the FPS counter",
+          "To stop pause mode from working"
+        ],
+        answer: 1,
+        explanation: "If two circles are exactly on top of each other, the distance is zero. The random angle gives a safe direction so the normalization step does not divide by zero."
+      },
+      {
+        id: "q-5",
+        category: "Debugging",
+        file: "main.py",
+        anchor: "find_safe_position()",
+        prompt: "What does find_safe_position() do when no valid spawn location is available right now?",
+        options: [
+          "It forces the circle to overlap anyway",
+          "It returns None so the caller can retry later",
+          "It deletes the circle permanently",
+          "It changes the FPS value"
+        ],
+        answer: 1,
+        explanation: "Returning None lets respawn delay the retry instead of placing the circle in an invalid overlapping spot."
+      },
+      {
+        id: "q-6",
+        category: "Debugging",
+        file: "main.py",
+        anchor: "ignore_circle in overlaps_circle()",
+        prompt: "What bug would appear if overlaps_circle() did not skip ignore_circle during respawn checks?",
+        options: [
+          "The circle would compare against itself and could falsely look overlapping",
+          "The window would close automatically",
+          "The speed clamp would stop working",
+          "The pause key would reverse direction"
+        ],
+        answer: 0,
+        explanation: "The respawning circle could be counted as colliding with itself, which would produce a false overlap result."
+      },
+      {
+        id: "q-7",
+        category: "Tradeoff",
+        file: "main.py",
+        anchor: "TARGET_TIE_DISTANCE",
+        prompt: "Why does the code use TARGET_TIE_DISTANCE when comparing chase candidates?",
+        options: [
+          "To make the simulation use fewer circles",
+          "To reduce unstable target switching when distances are almost equal",
+          "To disable all random behavior",
+          "To make wall collisions impossible"
+        ],
+        answer: 1,
+        explanation: "A small tie threshold keeps the chase logic from flipping between nearly equal targets on every frame."
+      },
+      {
+        id: "q-8",
+        category: "Tradeoff",
+        file: "main.py",
+        anchor: "Effect class",
+        prompt: "Why is death and rebirth animation stored in a separate Effect class instead of being mixed into Circle?",
+        options: [
+          "It makes temporary visuals easier to update and remove without cluttering circle state",
+          "It makes Python syntax faster",
+          "It forces the simulation to pause on every death",
+          "It removes the need for a render loop"
+        ],
+        answer: 0,
+        explanation: "The Effect class isolates short-lived visual state, which keeps the circle update path focused on simulation behavior."
+      },
+      {
+        id: "q-9",
+        category: "Tradeoff",
+        file: "main.py",
+        anchor: "MAX_SPEED_BY_SIZE",
+        prompt: "Why does the code use different max speed values by circle size?",
+        options: [
+          "To make larger circles feel heavier and smaller circles feel faster",
+          "To make all circles stop at the same time",
+          "To eliminate the need for collision checks",
+          "To make random jitter deterministic"
+        ],
+        answer: 0,
+        explanation: "The size-based speed cap gives each radius a different physical feel, which makes the simulation easier to read."
+      },
+      {
+        id: "q-10",
+        category: "Edge case",
+        file: "main.py",
+        anchor: "clamp_circle_speed()",
+        prompt: "What does clamp_circle_speed() do when the current speed is already below the max speed?",
+        options: [
+          "It returns without changing vx or vy",
+          "It sets the velocity to zero",
+          "It doubles the speed to keep the motion visible",
+          "It flips the circle color"
+        ],
+        answer: 0,
+        explanation: "The helper only rescales velocity if the speed exceeds the size-specific maximum. Otherwise it leaves the motion untouched."
+      },
+      {
+        id: "q-11",
+        category: "Edge case",
+        file: "main.py",
+        anchor: "apply_wall_forces_and_bounce()",
+        prompt: "What happens when a circle crosses the left boundary in apply_wall_forces_and_bounce()?",
+        options: [
+          "x is clamped to radius and vx becomes positive",
+          "The circle is deleted from circles",
+          "vy is set to zero and the circle freezes",
+          "The effect system creates a death ring"
+        ],
+        answer: 0,
+        explanation: "The code clamps x back inside the window and reflects velocity so the circle bounces away from the wall."
+      },
+      {
+        id: "q-12",
+        category: "Edge case",
+        file: "main.py",
+        anchor: "RESPAWN_RETRY_DELAY_SECONDS",
+        prompt: "Why does the code back off after a failed respawn attempt?",
+        options: [
+          "To avoid retrying every single frame when no safe position exists",
+          "To stop the FPS counter from updating",
+          "To make the circles larger on screen",
+          "To disable the death effect"
+        ],
+        answer: 0,
+        explanation: "The retry delay prevents the simulation from repeatedly doing expensive respawn work when the screen is temporarily full."
+      },
+      {
+        id: "q-13",
+        category: "Big-O",
+        file: "main.py",
+        anchor: "apply_interactions()",
+        prompt: "What is the Big-O cost of apply_interactions() for one circle when there are n circles total?",
+        options: [
+          "O(1)",
+          "O(log n)",
+          "O(n)",
+          "O(n^2)"
+        ],
+        answer: 2,
+        explanation: "One circle is compared against every other circle once, so the work is linear in the number of circles."
+      },
+      {
+        id: "q-14",
+        category: "Big-O",
+        file: "main.py",
+        anchor: "main() frame loop",
+        prompt: "What is the overall Big-O cost of one full frame update over n circles, based on the pairwise interaction loop?",
+        options: [
+          "O(n)",
+          "O(n log n)",
+          "O(n^2)",
+          "O(2^n)"
+        ],
+        answer: 2,
+        explanation: "The main loop updates each circle, and each circle scans all others during interactions, which produces quadratic scaling overall."
+      }
+    ];
+
+    const state = {
+      currentQuestion: 0,
+      answers: Array(quizData.length).fill(null),
+      submitted: false,
+      score: 0
+    };
+
+    const flashcardGrid = document.getElementById("flashcard-grid");
+    const quizContent = document.getElementById("quiz-content");
+    const quizNav = document.querySelector(".quiz-nav");
+    const quizResults = document.getElementById("quiz-results");
+    const overallResults = document.getElementById("overall-results");
+    const modeButtons = document.querySelectorAll("#mode-switcher .button");
+
+    function escapeHtml(text) {
+      return String(text)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#39;");
+    }
+
+    function renderFlashcards() {
+      flashcardGrid.innerHTML = flashcards
+        .map((card, index) => `
+          <article class="flashcard" role="button" tabindex="0" aria-pressed="false" data-index="${index}">
+            <div class="flashcard-inner">
+              <div class="flashcard-front">
+                <div class="flashcard-meta">
+                  <span class="pill">${escapeHtml(card.file)}</span>
+                  <span class="pill secondary">${escapeHtml(card.anchor)}</span>
+                </div>
+                <h3>${escapeHtml(card.frontTitle)}</h3>
+                <p>${escapeHtml(card.frontText)}</p>
+                <p class="card-hint">Click or press Enter/Space to flip.</p>
+              </div>
+              <div class="flashcard-back">
+                <div class="flashcard-meta">
+                  <span class="pill">Answer</span>
+                  <span class="pill secondary">${escapeHtml(card.file)}</span>
+                </div>
+                <h3>${escapeHtml(card.backTitle)}</h3>
+                <p>${escapeHtml(card.backText)}</p>
+                <p class="card-hint">Anchor: ${escapeHtml(card.anchor)}</p>
+              </div>
+            </div>
+          </article>
+        `)
+        .join("");
+    }
+
+    function renderQuizQuestions() {
+      quizContent.innerHTML = quizData
+        .map((question, index) => {
+          const options = question.options
+            .map((option, optionIndex) => `
+              <button
+                class="choice-button"
+                type="button"
+                data-question="${index}"
+                data-option="${optionIndex}"
+                aria-pressed="false"
+              >
+                ${escapeHtml(option)}
+              </button>
+            `)
+            .join("");
+
+          return `
+            <article class="question-card ${index === state.currentQuestion ? "is-active" : ""}" id="q-${index}" data-question-index="${index}" aria-hidden="${index === state.currentQuestion ? "false" : "true"}">
+              <div class="question-meta">
+                <span class="pill">${escapeHtml(question.category)}</span>
+                <span class="pill secondary">${escapeHtml(question.file)} · ${escapeHtml(question.anchor)}</span>
+              </div>
+              <h3>Question ${index + 1} of ${quizData.length}</h3>
+              <p class="question-stem">${escapeHtml(question.prompt)}</p>
+              <div class="question-options" role="group" aria-label="Answer choices for question ${index + 1}">
+                ${options}
+              </div>
+            </article>
+          `;
+        })
+        .join("");
+    }
+
+    function syncQuestionCardState() {
+      const cards = quizContent.querySelectorAll(".question-card");
+      cards.forEach((card, index) => {
+        const isActive = index === state.currentQuestion;
+        card.classList.toggle("is-active", isActive);
+        card.setAttribute("aria-hidden", String(!isActive));
+
+        const buttons = card.querySelectorAll(".choice-button");
+        buttons.forEach((button) => {
+          const selectedIndex = Number(button.dataset.option);
+          const isSelected = state.answers[index] === selectedIndex;
+          button.classList.toggle("selected", isSelected);
+
+          if (state.submitted) {
+            button.classList.toggle("correct", selectedIndex === quizData[index].answer);
+            button.classList.toggle("incorrect", isSelected && selectedIndex !== quizData[index].answer);
+            button.setAttribute("aria-disabled", "true");
+          } else {
+            button.classList.remove("correct", "incorrect");
+            button.removeAttribute("aria-disabled");
+          }
+          button.setAttribute("aria-pressed", String(isSelected));
+        });
+      });
+    }
+
+    function updateQuizNav() {
+      const first = state.currentQuestion === 0;
+      const last = state.currentQuestion === quizData.length - 1;
+      const answeredCount = state.answers.filter((answer) => answer !== null).length;
+
+      quizNav.innerHTML = `
+        <div class="nav-left">
+          <button class="nav-button" type="button" data-action="prev" ${first ? "disabled" : ""}>Previous</button>
+          <button class="nav-button" type="button" data-action="next" ${last ? "disabled" : ""}>Next</button>
+        </div>
+        <div class="nav-center">
+          <span class="progress-label">Question ${state.currentQuestion + 1} of ${quizData.length}</span>
+          <span class="pill">${answeredCount} answered</span>
+        </div>
+        <div class="nav-right">
+          <button class="nav-button primary" type="button" data-action="submit" ${state.submitted ? "disabled" : ""}>${last ? "Submit Quiz" : "Review Later"}</button>
+        </div>
+      `;
+    }
+
+    function renderScoreSummary(score, missed) {
+      const total = quizData.length;
+      const percent = Math.round((score / total) * 100);
+      const focusText = missed.length
+        ? `Review: ${missed.slice(0, 3).join(", ")}${missed.length > 3 ? ", and more" : ""}.`
+        : "Strong run. The simulation flow and its edge cases are clear.";
+
+      return `
+        <div class="result-summary">
+          <div class="score-line">
+            <strong>${score} / ${total}</strong>
+            <span class="pill">${percent}%</span>
+          </div>
+          <p class="subtle-note">${escapeHtml(focusText)}</p>
+          <div class="meta-row">
+            <span class="chip">Behavior tracing</span>
+            <span class="chip secondary">Debugging</span>
+            <span class="chip">Tradeoffs</span>
+            <span class="chip secondary">Edge cases</span>
+            <span class="chip">Big-O</span>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderResults() {
+      if (!state.submitted) {
+        quizResults.innerHTML = `
+          <div class="result-summary">
+            <div class="score-line">
+              <strong>Ready to submit</strong>
+              <span class="pill">0 / ${quizData.length}</span>
+            </div>
+            <p class="subtle-note">Answer all questions, then submit to see the score, the correct answers, and short explanations tied to each anchor in <strong>main.py</strong>.</p>
+          </div>
+        `;
+        overallResults.innerHTML = `
+          <div class="result-summary">
+            <div class="score-line">
+              <strong>Ready to study</strong>
+              <span class="pill">0 / ${quizData.length} so far</span>
+            </div>
+            <p class="subtle-note">Use the flashcards first if you want a lighter review before attempting the quiz.</p>
+          </div>
+        `;
+        return;
+      }
+
+      const scored = quizData.map((question, index) => {
+        const selected = state.answers[index];
+        const correct = selected === question.answer;
+        return {
+          ...question,
+          selected,
+          correct
+        };
+      });
+
+      const score = scored.filter((item) => item.correct).length;
+      const missed = scored
+        .filter((item) => !item.correct)
+        .map((item) => item.category)
+        .filter((category, index, list) => list.indexOf(category) === index);
+
+      quizResults.innerHTML = renderScoreSummary(score, missed) + `
+        <div class="result-list">
+          ${scored
+            .map((item, index) => {
+              const userAnswer = item.selected === null ? "No answer selected" : item.options[item.selected];
+              const correctAnswer = item.options[item.answer];
+              return `
+                <article class="result-card ${item.correct ? "correct" : "incorrect"}">
+                  <div class="result-meta">
+                    <span class="pill">Q${index + 1}</span>
+                    <span class="pill secondary">${escapeHtml(item.category)}</span>
+                    <span class="pill">${item.correct ? "Correct" : "Needs review"}</span>
+                  </div>
+                  <h4>${escapeHtml(item.prompt)}</h4>
+                  <p><strong>Your answer:</strong> ${escapeHtml(userAnswer)}</p>
+                  <p><strong>Correct answer:</strong> ${escapeHtml(correctAnswer)}</p>
+                  <p><strong>Why:</strong> ${escapeHtml(item.explanation)}</p>
+                </article>
+              `;
+            })
+            .join("")}
+        </div>
+      `;
+
+      overallResults.innerHTML = `
+        <div class="result-summary">
+          <div class="score-line">
+            <strong>${score} / ${quizData.length}</strong>
+            <span class="pill">${Math.round((score / quizData.length) * 100)}%</span>
+          </div>
+          <p class="subtle-note">The detailed review above shows what you selected, what was correct, and why each answer matters in the simulation.</p>
+          <div class="meta-row">
+            ${missed.length ? missed.map((item) => `<span class="chip secondary">${escapeHtml(item)}</span>`).join("") : `<span class="chip">All categories solid</span>`}
+          </div>
+        </div>
+      `;
+    }
+
+    function goToQuestion(index) {
+      const nextIndex = Math.max(0, Math.min(index, quizData.length - 1));
+      state.currentQuestion = nextIndex;
+      syncQuestionCardState();
+      updateQuizNav();
+      renderResults();
+      document.getElementById(`q-${nextIndex}`).scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+
+    function nextQuestion() {
+      goToQuestion(state.currentQuestion + 1);
+    }
+
+    function prevQuestion() {
+      goToQuestion(state.currentQuestion - 1);
+    }
+
+    function gradeQuiz() {
+      state.score = quizData.reduce((total, question, index) => total + (state.answers[index] === question.answer ? 1 : 0), 0);
+      state.submitted = true;
+      quiz.classList.add("submitted");
+      syncQuestionCardState();
+      updateQuizNav();
+      renderResults();
+    }
+
+    function validateQuizDom() {
+      const requiredSelectors = ["#quiz-content", ".quiz-nav", "#quiz-results", "#flashcard-grid"];
+      const missing = [];
+
+      requiredSelectors.forEach((selector) => {
+        if (!document.querySelector(selector)) {
+          missing.push(selector);
+        }
+      });
+
+      quizData.forEach((_, index) => {
+        if (!document.getElementById(`q-${index}`)) {
+          missing.push(`#q-${index}`);
+        }
+      });
+
+      document.querySelectorAll(".flashcard").forEach((card, index) => {
+        if (!card.querySelector(".flashcard-front")) {
+          missing.push(`.flashcard-front (card ${index})`);
+        }
+        if (!card.querySelector(".flashcard-back")) {
+          missing.push(`.flashcard-back (card ${index})`);
+        }
+      });
+
+      if (missing.length > 0) {
+        console.error("Study tool DOM validation failed", missing);
+        return false;
+      }
+
+      return true;
+    }
+
+    function updateModeButtons(target) {
+      modeButtons.forEach((button) => {
+        button.classList.toggle("active", button.dataset.target === target);
+      });
+    }
+
+    function boot() {
+      document.title = `Project Mastery Study Tool · ${difficultyLabel} · ${questionCount} Questions`;
+
+      renderFlashcards();
+      renderQuizQuestions();
+      syncQuestionCardState();
+      updateQuizNav();
+      renderResults();
+      validateQuizDom();
+
+      flashcardGrid.addEventListener("click", (event) => {
+        const card = event.target.closest(".flashcard");
+        if (!card) {
+          return;
+        }
+        card.classList.toggle("is-flipped");
+        card.setAttribute("aria-pressed", String(card.classList.contains("is-flipped")));
+      });
+
+      flashcardGrid.addEventListener("keydown", (event) => {
+        if (event.key !== "Enter" && event.key !== " ") {
+          return;
+        }
+        const card = event.target.closest(".flashcard");
+        if (!card) {
+          return;
+        }
+        event.preventDefault();
+        card.classList.toggle("is-flipped");
+        card.setAttribute("aria-pressed", String(card.classList.contains("is-flipped")));
+      });
+
+      quizContent.addEventListener("click", (event) => {
+        const button = event.target.closest(".choice-button");
+        if (!button || state.submitted) {
+          return;
+        }
+
+        const questionIndex = Number(button.dataset.question);
+        const optionIndex = Number(button.dataset.option);
+        state.answers[questionIndex] = optionIndex;
+        state.currentQuestion = questionIndex;
+        syncQuestionCardState();
+        updateQuizNav();
+        renderResults();
+      });
+
+      quizContent.addEventListener("keydown", (event) => {
+        if (event.key === "ArrowRight") {
+          nextQuestion();
+        } else if (event.key === "ArrowLeft") {
+          prevQuestion();
+        }
+      });
+
+      quizNav.addEventListener("click", (event) => {
+        const button = event.target.closest(".nav-button");
+        if (!button) {
+          return;
+        }
+
+        const action = button.dataset.action;
+        if (action === "prev") {
+          prevQuestion();
+        } else if (action === "next") {
+          nextQuestion();
+        } else if (action === "submit" && !state.submitted) {
+          gradeQuiz();
+        }
+      });
+
+      modeButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          const target = button.dataset.target;
+          updateModeButtons(target);
+          document.getElementById(target).scrollIntoView({ behavior: "smooth", block: "start" });
+        });
+      });
+
+      window.addEventListener("resize", () => {
+        validateQuizDom();
+      });
+    }
+
+    const quiz = document.getElementById("quiz");
+    boot();
+  </script>
+</body>
+</html>
